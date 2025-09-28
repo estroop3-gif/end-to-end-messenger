@@ -28,7 +28,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, initialTab = 'hardkey' })
 
   const checkHardKey = async () => {
     try {
-      const status = await invoke<HardKeyStatus>('check_hardkey_cmd');
+      const status = await invoke('check_hardkey_cmd');
       setHardKeyStatus(status);
     } catch (err) {
       console.error('Failed to check hardware key:', err);
@@ -47,7 +47,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, initialTab = 'hardkey' })
     setError(null);
 
     try {
-      const response = await invoke<LoginResponse>('verify_local_passphrase_cmd', {
+      const response = await invoke('verify_local_passphrase_cmd', {
         passphrase: passphrase,
       });
 
@@ -73,7 +73,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, initialTab = 'hardkey' })
     setError(null);
 
     try {
-      const response = await invoke<LoginResponse>('set_hardkey_mode_cmd');
+      const response = await invoke('set_hardkey_mode_cmd');
 
       if (response.ok) {
         onLoginSuccess();
@@ -103,7 +103,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, initialTab = 'hardkey' })
     setError(null);
 
     try {
-      const response = await invoke<LoginResponse>('set_local_passphrase_cmd', {
+      const response = await invoke('set_local_passphrase_cmd', {
         passphrase: passphrase,
       });
 

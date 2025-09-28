@@ -12,6 +12,7 @@ pub mod session;
 pub mod login_commands;
 pub mod settings_store;
 pub mod keydetect;
+pub mod signal_placeholder;
 
 // Re-export main types for external usage
 pub use crypto::{CryptoManager, Identity, EncryptedMessage};
@@ -20,6 +21,7 @@ pub use security::{SecurityChecker, PreSendCheckResults, PreOpenCheckResults};
 pub use tor_integration::{TorManager, OnionService, TorStatus};
 pub use document::{DocumentEditor, DocumentMetadata};
 pub use session::{SessionManager, CipherAlgorithm, CipherCode, CipherPayload, SessionInfo};
+pub use signal_placeholder::{SignalSession, SignalStore, PreKey};
 
 // Version information
 pub const VERSION: &str = "1.0.0";

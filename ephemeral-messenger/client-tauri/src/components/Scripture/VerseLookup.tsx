@@ -59,7 +59,7 @@ export const VerseLookup: React.FC<VerseLookupProps> = ({
 
   const loadBibleBooks = async () => {
     try {
-      const bookList = await invoke<Book[]>('get_bible_books');
+      const bookList = await invoke('get_bible_books');
       setBooks(bookList);
 
       // Set initial book if none selected

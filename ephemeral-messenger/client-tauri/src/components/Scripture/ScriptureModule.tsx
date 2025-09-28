@@ -107,11 +107,11 @@ export const ScriptureModule: React.FC = () => {
   const initializeScriptureModule = async () => {
     try {
       // Load available translations
-      const translations = await invoke<Translation[]>('get_available_translations');
+      const translations = await invoke('get_available_translations');
       setAvailableTranslations(translations);
 
       // Check for existing ESV license
-      const esvConfig = await invoke<ESVLicense | null>('get_esv_license');
+      const esvConfig = await invoke('get_esv_license');
       setEsvLicense(esvConfig);
 
       // Set default translation (KJV if no ESV license)
@@ -141,7 +141,7 @@ export const ScriptureModule: React.FC = () => {
         includeMorphology: showMorphology
       };
 
-      const text = await invoke<ScriptureText>('get_scripture_text', { request });
+      const text = await invoke('get_scripture_text', { request });
       setScriptureText(text);
 
     } catch (error) {
@@ -162,13 +162,13 @@ export const ScriptureModule: React.FC = () => {
 
   const handleESVLicenseSetup = async (licenseData: Partial<ESVLicense>) => {
     try {
-      const validatedLicense = await invoke<ESVLicense>('setup_esv_license', { licenseData });
+      const validatedLicense = await invoke('setup_esv_license', { licenseData });
       setEsvLicense(validatedLicense);
 
       if (validatedLicense.validated) {
         setSelectedTranslation('esv');
         // Refresh available translations
-        const translations = await invoke<Translation[]>('get_available_translations');
+        const translations = await invoke('get_available_translations');
         setAvailableTranslations(translations);
       }
 
@@ -183,7 +183,7 @@ export const ScriptureModule: React.FC = () => {
 
     setIsLoading(true);
     try {
-      const results = await invoke<ScriptureText[]>('search_scripture', {
+      const results = await invoke('search_scripture', {
         query: searchTerm,
         translation: selectedTranslation,
         includeOriginal: showOriginal
@@ -202,7 +202,7 @@ export const ScriptureModule: React.FC = () => {
 
     setIsLoading(true);
     try {
-      const results = await invoke<ScriptureText[]>('search_by_strongs', {
+      const results = await invoke('search_by_strongs', {
         strongsNumber,
         includeContext: true
       });

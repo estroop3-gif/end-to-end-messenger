@@ -109,7 +109,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ identity, onError }) =>
         passphrase,
       };
 
-      const encryptedDoc = await invoke<{ file_path: string }>('create_document', createRequest);
+      const encryptedDoc = await invoke('create_document', createRequest);
 
       // Ask user where to save the file
       const savePath = await save({

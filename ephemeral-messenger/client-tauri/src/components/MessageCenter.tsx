@@ -44,7 +44,7 @@ const MessageCenter: React.FC<MessageCenterProps> = ({ identity, onError }) => {
 
   const loadContacts = async () => {
     try {
-      const contactList = await invoke<Contact[]>('get_contacts');
+      const contactList = await invoke('get_contacts');
       setContacts(contactList);
     } catch (error) {
       console.log('No contacts found');
@@ -53,7 +53,7 @@ const MessageCenter: React.FC<MessageCenterProps> = ({ identity, onError }) => {
 
   const loadMessages = async (contactFingerprint: string) => {
     try {
-      const messageList = await invoke<Message[]>('get_messages', {
+      const messageList = await invoke('get_messages', {
         contactFingerprint,
       });
       setMessages(messageList);
@@ -186,7 +186,7 @@ const MessageCenter: React.FC<MessageCenterProps> = ({ identity, onError }) => {
         passphrase,
       };
 
-      const decrypted = await invoke<string>('decrypt_message', decryptRequest);
+      const decrypted = await invoke('decrypt_message', decryptRequest);
       return decrypted;
     } catch (error) {
       return '[Encrypted - Enter passphrase to decrypt]';

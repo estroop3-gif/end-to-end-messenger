@@ -146,7 +146,7 @@ const SettingsSecurity: React.FC = () => {
   const loadSettings = async () => {
     try {
       setLoading(true);
-      const response = await invoke<any>('settings_load', {
+      const response = await invoke('settings_load', {
         accessMode: 'hardware_key', // Default to hardware key
         passphrase: null,
       });
@@ -165,7 +165,7 @@ const SettingsSecurity: React.FC = () => {
 
   const loadHazardWarning = async () => {
     try {
-      const warning = await invoke<HazardWarning>('get_local_access_warning');
+      const warning = await invoke('get_local_access_warning');
       setHazardWarning(warning);
     } catch (err) {
       console.error('Failed to load hazard warning:', err);
@@ -176,7 +176,7 @@ const SettingsSecurity: React.FC = () => {
     if (!settings) return;
 
     try {
-      const response = await invoke<any>('settings_save', { settings });
+      const response = await invoke('settings_save', { settings });
       if (!response.success) {
         setError(response.error);
       }
@@ -190,7 +190,7 @@ const SettingsSecurity: React.FC = () => {
 
     if (value.length > 0) {
       try {
-        const strength = await invoke<PasswordStrength>('validate_passphrase_strength', {
+        const strength = await invoke('validate_passphrase_strength', {
           passphrase: value,
         });
         setPassphraseStrength(strength);
@@ -214,7 +214,7 @@ const SettingsSecurity: React.FC = () => {
     }
 
     try {
-      const success = await invoke<boolean>('enable_local_access', {
+      const success = await invoke('enable_local_access', {
         passphrase: localPassphrase,
         confirmation: acknowledgmentText,
       });
@@ -233,7 +233,7 @@ const SettingsSecurity: React.FC = () => {
 
   const loadStorageDevices = async () => {
     try {
-      const devices = await invoke<DeviceInfo[]>('list_storage_devices');
+      const devices = await invoke('list_storage_devices');
       setStorageDevices(devices);
     } catch (err) {
       setError(`Failed to load storage devices: ${err}`);
@@ -248,7 +248,7 @@ const SettingsSecurity: React.FC = () => {
     }
 
     try {
-      const plan = await invoke<WipePlan>('create_wipe_plan', {
+      const plan = await invoke('create_wipe_plan', {
         devicePath: selectedDevice.path,
         deviceId: selectedDevice.id,
         serialNumber: selectedDevice.serial,

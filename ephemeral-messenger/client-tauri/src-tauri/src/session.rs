@@ -5,7 +5,7 @@ use std::sync::Mutex;
 use std::time::{SystemTime, UNIX_EPOCH, Duration};
 use uuid::Uuid;
 use zeroize::{Zeroize, ZeroizeOnDrop};
-use chacha20poly1305::{ChaCha20Poly1305, Key, Nonce, aead::{Aead, NewAead}};
+use chacha20poly1305::{ChaCha20Poly1305, Key, Nonce, aead::Aead, KeyInit};
 use rand::{RngCore, rngs::OsRng};
 use base64;
 use qrcode::QrCode;

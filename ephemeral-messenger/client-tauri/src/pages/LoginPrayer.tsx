@@ -81,7 +81,7 @@ export const LoginPrayer: React.FC<LoginPrayerProps> = ({ onAuthenticated }) => 
       }
 
       // Generate new verse for today using built-in verses
-      const newVerse = await invoke<DailyVerse>('get_daily_verse');
+      const newVerse = await invoke('get_daily_verse');
       setDailyVerse(newVerse);
 
       // Cache for today
@@ -127,12 +127,12 @@ export const LoginPrayer: React.FC<LoginPrayerProps> = ({ onAuthenticated }) => 
   const checkAuthenticationStatus = async () => {
     try {
       // Check if hardware key is present
-      const keyStatus = await invoke<boolean>('check_hardware_key_present');
+      const keyStatus = await invoke('check_hardware_key_present');
       setKeyPresent(keyStatus);
 
       // Check if account exists
       if (keyStatus) {
-        const accountExists = await invoke<boolean>('check_account_exists');
+        const accountExists = await invoke('check_account_exists');
         setHasAccount(accountExists);
       }
 
@@ -184,7 +184,7 @@ export const LoginPrayer: React.FC<LoginPrayerProps> = ({ onAuthenticated }) => 
 
     try {
       // Verify hardware key and authenticate
-      const account = await invoke<CreatedAccount>('authenticate_with_hardware_key');
+      const account = await invoke('authenticate_with_hardware_key');
       onAuthenticated(account);
     } catch (error) {
       console.error('Authentication failed:', error);

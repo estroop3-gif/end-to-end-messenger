@@ -102,7 +102,7 @@ class KeyDetectionService {
 
     try {
       // Get default configuration from backend
-      const defaultConfig = await invoke<KeyDetectionConfig>('get_default_key_detection_config');
+      const defaultConfig = await invoke('get_default_key_detection_config');
 
       // Merge with provided config
       this.currentConfig = {
@@ -170,7 +170,7 @@ class KeyDetectionService {
     this.ensureInitialized();
 
     try {
-      return await invoke<ValidatedKey | null>('get_current_key');
+      return await invoke('get_current_key');
     } catch (error) {
       console.error('Failed to get current key:', error);
       return null;
@@ -184,7 +184,7 @@ class KeyDetectionService {
     this.ensureInitialized();
 
     try {
-      return await invoke<boolean>('is_key_present');
+      return await invoke('is_key_present');
     } catch (error) {
       console.error('Failed to check key presence:', error);
       return false;
@@ -198,7 +198,7 @@ class KeyDetectionService {
     this.ensureInitialized();
 
     try {
-      return await invoke<KeyDetectionStats>('get_key_detection_stats');
+      return await invoke('get_key_detection_stats');
     } catch (error) {
       console.error('Failed to get detection stats:', error);
       throw error;
@@ -282,7 +282,7 @@ class KeyDetectionService {
    */
   async validateKeyFile(keyFilePath: string): Promise<ValidatedKey | null> {
     try {
-      return await invoke<ValidatedKey | null>('validate_key_file', { keyFilePath });
+      return await invoke('validate_key_file', { keyFilePath });
     } catch (error) {
       console.error('Failed to validate key file:', error);
       return null;
@@ -294,7 +294,7 @@ class KeyDetectionService {
    */
   async scanRemovableDevices(): Promise<RemovableDevice[]> {
     try {
-      return await invoke<RemovableDevice[]>('scan_removable_devices');
+      return await invoke('scan_removable_devices');
     } catch (error) {
       console.error('Failed to scan removable devices:', error);
       return [];
@@ -306,7 +306,7 @@ class KeyDetectionService {
    */
   async checkDeviceForKey(devicePath: string): Promise<boolean> {
     try {
-      return await invoke<boolean>('check_device_for_key', { devicePath });
+      return await invoke('check_device_for_key', { devicePath });
     } catch (error) {
       console.error('Failed to check device for key:', error);
       return false;

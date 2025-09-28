@@ -43,7 +43,7 @@ const IdentityManager: React.FC<IdentityManagerProps> = ({
     try {
       setIsCreating(true);
 
-      const identity = await invoke<Identity>('create_identity', {
+      const identity = await invoke('create_identity', {
         passphrase,
         useHardwareToken,
       });
@@ -63,7 +63,7 @@ const IdentityManager: React.FC<IdentityManagerProps> = ({
 
   const handleImportIdentity = async () => {
     try {
-      const identity = await invoke<Identity>('import_identity', {
+      const identity = await invoke('import_identity', {
         passphrase,
       });
       onIdentityCreated(identity);
