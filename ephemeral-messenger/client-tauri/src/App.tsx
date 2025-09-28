@@ -25,7 +25,7 @@ function App() {
     try {
       setIsLoading(true);
       // Check if user is authenticated with login system
-      const authenticated = await invoke('is_authenticated_cmd');
+      const authenticated = await invoke('is_authenticated_cmd') as boolean;
       setIsAuthenticated(authenticated);
 
       if (authenticated) {
@@ -43,7 +43,7 @@ function App() {
   const checkExistingIdentity = async () => {
     try {
       // Check if there's an existing identity in memory
-      const identity = await invoke('get_current_identity');
+      const identity = await invoke('get_current_identity') as Identity;
       setCurrentIdentity(identity);
     } catch (err) {
       console.log('No existing identity found');
