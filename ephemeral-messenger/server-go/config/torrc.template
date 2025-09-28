@@ -1,0 +1,121 @@
+# Ephemeral Messenger Tor Configuration Template
+# This file is used to generate the runtime torrc
+
+# Basic Tor configuration
+DataDirectory {{.DataDirectory}}
+ControlPort {{.ControlPort}}
+SOCKSPort {{.SOCKSPort}}
+
+# Logging configuration
+Log {{.LogLevel}} file {{.LogFile}}
+SafeLogging 1
+
+# Authentication
+CookieAuthentication 1
+{{if .ControlPassword}}
+HashedControlPassword {{.HashedControlPassword}}
+{{end}}
+
+# Circuit building
+CircuitBuildTimeout {{.CircuitTimeout}}
+LearnCircuitBuildTimeout 0
+MaxCircuitDirtiness 600
+NewCircuitPeriod 30
+MaxClientCircuitsPending 32
+KeepalivePeriod 60
+
+# Path selection
+PathsNeededToBuildCircuits 0.25
+{{if .StrictNodes}}
+StrictNodes 1
+{{end}}
+
+# Entry nodes (guards)
+{{range .EntryNodes}}
+EntryNodes {{.}}
+{{end}}
+
+# Exit nodes
+{{range .ExitNodes}}
+ExitNodes {{.}}
+{{end}}
+
+# Excluded nodes
+{{range .ExcludeNodes}}
+ExcludeNodes {{.}}
+{{end}}
+
+# Bridge configuration
+{{if .BridgeMode}}
+UseBridges 1
+ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy
+ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy
+{{range .Bridges}}
+Bridge {{.}}
+{{end}}
+{{end}}
+
+# Security hardening
+ExcludeExitNodes {??}
+ExitPolicy reject *:*
+PublishServerDescriptor 0
+DisableDebuggerAttachment 0
+
+# Hidden service configuration
+{{range .HiddenServices}}
+HiddenServiceDir {{.Directory}}
+{{range .Ports}}
+HiddenServicePort {{.VirtualPort}} {{.TargetHost}}:{{.TargetPort}}
+{{end}}
+{{if .ClientAuth}}
+HiddenServiceAuthorizeClient stealth {{.Name}}
+{{end}}
+{{if .MaxStreams}}
+HiddenServiceMaxStreams {{.MaxStreams}}
+{{end}}
+{{if .MaxStreamsClose}}
+HiddenServiceMaxStreamsCloseCircuit {{.MaxStreamsClose}}
+{{end}}
+{{if .SingleHopService}}
+HiddenServiceSingleHopMode 1
+{{end}}
+{{if .NonAnonymous}}
+HiddenServiceNonAnonymousMode 1
+{{end}}
+{{end}}
+
+# Performance tuning
+KeepalivePeriod 60
+CircuitsAvailableTimeout 30
+CircuitStreamTimeout 10
+
+# Anonymous connection settings
+IsolateClientAuth 1
+IsolateClientProtocol 1
+IsolateDestAddr 1
+IsolateDestPort 1
+
+# DNS configuration
+ServerDNSResolvConfFile /etc/resolv.conf
+ServerDNSAllowBrokenConfig 1
+ServerDNSDetectHijacking 0
+
+# Bandwidth settings
+RelayBandwidthRate 0
+RelayBandwidthBurst 0
+MaxAdvertisedBandwidth 1 MB
+
+# Client-only mode
+SocksPolicy accept *
+ORPort 0
+BridgeRelay 0
+ExitRelay 0
+
+# Additional security
+FetchDirInfoEarly 1
+FetchDirInfoExtraEarly 1
+FetchHidServDescriptors 1
+
+# Onion service security
+RendPostPeriod 600
+HiddenServiceStatistics 0

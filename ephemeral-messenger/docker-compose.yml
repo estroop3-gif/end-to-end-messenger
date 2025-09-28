@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  ephemeral-messenger:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ephemeral-messenger
+    restart: unless-stopped
+
+    # Security settings
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    read_only: true
+
+    # Resource limits
+    mem_limit: 1g
+    cpus: '1.0'
+
+    # Network configuration
+    ports:
+      - "127.0.0.1:8080:8080"  # Only bind to localhost
+
+    # Volumes
+    volumes:
+      - tor-data:/tor-data
+      - tmp-data:/tmp
+      - logs:/app/logs
+
+    # Environment variables
+    environment:
+      - TOR_CONTROL_PORT=9051
+      - TOR_SOCKS_PORT=9050
+      - LOG_LEVEL=info
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  tor-data:
+    driver: local
+  tmp-data:
+    driver: tmpfs
+    driver_opts:
+      tmpfs:
+        size: 100m
+  logs:
+    driver: local
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24

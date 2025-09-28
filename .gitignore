@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Rust
+target/
+*/target/
+**/target/
+Cargo.lock
+
+# Tauri
+src-tauri/target/
+
+# Vite
+.vite/
+*/node_modules/
+**/node_modules/

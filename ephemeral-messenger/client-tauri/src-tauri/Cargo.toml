@@ -1,0 +1,49 @@
+[package]
+name = "secure-messaging-suite"
+version = "1.0.0"
+description = "Secure messaging and document editing suite with session ciphers"
+authors = ["Secure Messaging Team"]
+license = "MIT"
+edition = "2021"
+default-run = "app"
+
+[[bin]]
+name = "app"
+path = "src/main.rs"
+
+[[bin]]
+name = "session_cli"
+path = "src/bin/session_cli.rs"
+
+[build-dependencies]
+tauri-build = { version = "2.0.0", features = [] }
+
+[dependencies]
+tauri = { version = "2.0.0", features = [ "tray-icon", "protocol-asset"] }
+tauri-plugin-shell = "2.0.0"
+tauri-plugin-dialog = "2.0.0"
+tauri-plugin-fs = "2.0.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1", features = ["full"] }
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Core cryptography for session ciphers
+chacha20poly1305 = "0.10"
+rand = "0.8"
+hex = "0.4"
+base64 = "0.22"
+bs58 = "0.5"
+qrcode = "0.14"
+
+# Memory security
+zeroize = { version = "1.7", features = ["zeroize_derive"] }
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.6", features = ["v4"] }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]

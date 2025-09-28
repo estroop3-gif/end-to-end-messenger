@@ -1,0 +1,350 @@
+.document-editor {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-background);
+}
+
+.editor-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-lg) var(--space-xl);
+  background: var(--color-surface-elevated);
+  border-bottom: 1px solid var(--color-border);
+  gap: var(--space-md);
+}
+
+.document-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.document-title {
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--space-sm);
+  border-radius: var(--radius-lg);
+  transition: background var(--transition-fast);
+  min-width: 200px;
+}
+
+.document-title:hover {
+  background: var(--color-surface);
+}
+
+.document-title:focus {
+  outline: none;
+  background: var(--color-surface);
+  box-shadow: 0 0 0 2px var(--color-primary-subtle);
+}
+
+.author-info {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  font-family: var(--font-family-mono);
+}
+
+.editor-actions {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.new-doc-button, .save-button {
+  padding: var(--space-md) var(--space-xl);
+  border-radius: var(--radius-lg);
+  border: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.new-doc-button {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.new-doc-button:hover {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-color: var(--color-primary);
+}
+
+.editor-container {
+  flex: 1;
+  background: var(--color-surface);
+  overflow-y: auto;
+  border-radius: 0;
+}
+
+.prosemirror-editor {
+  height: 100%;
+  min-height: 500px;
+}
+
+/* ProseMirror Editor Styling */
+.ProseMirror {
+  padding: var(--space-2xl);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: none;
+  outline: none;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  font-family: var(--font-family-sans);
+  min-height: calc(100vh - 200px);
+}
+
+.ProseMirror h1, .ProseMirror h2, .ProseMirror h3 {
+  color: var(--color-primary);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-md);
+}
+
+.ProseMirror h1 {
+  font-size: var(--font-size-3xl);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: var(--space-sm);
+}
+
+.ProseMirror h2 {
+  font-size: var(--font-size-2xl);
+}
+
+.ProseMirror h3 {
+  font-size: var(--font-size-xl);
+}
+
+.ProseMirror p {
+  margin-bottom: 1rem;
+}
+
+.ProseMirror ul, .ProseMirror ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.ProseMirror li {
+  margin-bottom: 0.25rem;
+}
+
+.ProseMirror blockquote {
+  border-left: 4px solid #00ff88;
+  margin: 1rem 0;
+  padding-left: 1rem;
+  color: #ccc;
+  background: rgba(0, 255, 136, 0.05);
+  border-radius: 0 8px 8px 0;
+}
+
+.ProseMirror code {
+  background: rgba(0, 0, 0, 0.3);
+  color: #00ff88;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+}
+
+.ProseMirror pre {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.ProseMirror pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Menu bar styling */
+.ProseMirror-menubar {
+  background: rgba(15, 15, 15, 0.9);
+  border-bottom: 1px solid #333;
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.ProseMirror-menu-item {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #999;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.ProseMirror-menu-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e5e5e5;
+}
+
+.ProseMirror-menu-item.ProseMirror-menu-active {
+  background: #00ff88;
+  color: #000;
+}
+
+/* Save Dialog */
+.save-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.save-dialog {
+  background: rgba(20, 20, 20, 0.95);
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.save-dialog h3 {
+  color: #00ff88;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.recipients-input {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.recipients-input input {
+  flex: 1;
+}
+
+.recipients-input button {
+  padding: 0.75rem 1rem;
+  background: #00ff88;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.recipients-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.recipient-tag {
+  background: rgba(0, 255, 136, 0.2);
+  color: #00ff88;
+  padding: 0.25rem 0.5rem;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.recipient-tag button {
+  background: none;
+  border: none;
+  color: #00ff88;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0;
+  margin-left: 0.25rem;
+}
+
+.policy-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #00ff88;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.cancel-button {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: #999;
+  border: 1px solid #444;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.cancel-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e5e5e5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .editor-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .document-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .ProseMirror {
+    padding: 1rem;
+  }
+
+  .save-dialog {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}
