@@ -262,7 +262,7 @@ impl SecureDocFormat {
         use chacha20poly1305::{ChaCha20Poly1305, KeyInit, AeadInPlace};
         use chacha20poly1305::aead::{Aead, Nonce as AeadNonce, generic_array::GenericArray};
 
-        let cipher = ChaCha20Poly1305::new(GenericArray::from_slice(key));
+        let cipher = ChaCha20Poly1305::from(GenericArray::from_slice(key));
         let nonce_bytes = sodiumoxide::randombytes::randombytes(12);
         let nonce = AeadNonce::from_slice(&nonce_bytes);
 
@@ -289,7 +289,7 @@ impl SecureDocFormat {
             return Err(anyhow!("Layer B data too short"));
         }
 
-        let cipher = ChaCha20Poly1305::new(GenericArray::from_slice(key));
+        let cipher = ChaCha20Poly1305::from(GenericArray::from_slice(key));
         let nonce = AeadNonce::from_slice(&data[0..12]);
         let tag_start = data.len() - 16;
         let mut ciphertext = data[12..tag_start].to_vec();

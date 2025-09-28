@@ -221,7 +221,7 @@ impl TorManager {
 
         // Get version
         stream.write_all(b"GETINFO version\r\n")?;
-        let mut reader = BufReader::new(&stream);
+        let mut reader = BufReader::new(&mut stream);
         let mut version_response = String::new();
         reader.read_line(&mut version_response)?;
 
@@ -236,7 +236,7 @@ impl TorManager {
         };
 
         // Get circuit count
-        stream.write_all(b"GETINFO circuit-status\r\n")?;
+        reader.get_mut().write_all(b"GETINFO circuit-status\r\n")?;
         let mut circuit_count = 0u32;
         loop {
             let mut line = String::new();

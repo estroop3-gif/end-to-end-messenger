@@ -332,7 +332,7 @@ impl SessionManager {
             },
             CipherAlgorithm::AEAD { kdf_salt, argon2_params, passphrase_mode } => {
                 // Use session key for AEAD encryption
-                let cipher = ChaCha20Poly1305::new(Key::from_slice(&session.session_key));
+                let cipher = ChaCha20Poly1305::from(Key::from_slice(&session.session_key));
                 let mut nonce_bytes = [0u8; NONCE_SIZE];
                 OsRng.fill_bytes(&mut nonce_bytes);
                 let nonce = Nonce::from_slice(&nonce_bytes);
@@ -399,7 +399,7 @@ impl SessionManager {
                 let nonce = Nonce::from_slice(&session_ciphertext[..NONCE_SIZE]);
                 let ciphertext = &session_ciphertext[NONCE_SIZE..];
 
-                let cipher = ChaCha20Poly1305::new(Key::from_slice(&session.session_key));
+                let cipher = ChaCha20Poly1305::from(Key::from_slice(&session.session_key));
                 let plaintext_bytes = cipher.decrypt(nonce, ciphertext)
                     .map_err(|_| anyhow::anyhow!("Failed to decrypt session message"))?;
 

@@ -6,7 +6,7 @@ use anyhow::{Result, Context, bail};
 use serde::{Serialize, Deserialize};
 use argon2::{Argon2, Algorithm, Version, Params, PasswordHasher, PasswordVerifier};
 use argon2::password_hash::{PasswordHash, SaltString};
-use chacha20poly1305::{ChaCha20Poly1305, Key, Nonce, aead::{Aead, NewAead}};
+use chacha20poly1305::{ChaCha20Poly1305, Key, Nonce, aead::Aead, KeyInit};
 use zeroize::{Zeroize, ZeroizeOnDrop};
 use fs4::FileExt;
 use time::OffsetDateTime;
@@ -195,7 +195,7 @@ impl SettingsStore {
         OsRng.fill_bytes(&mut nonce_bytes);
 
         // Encrypt master key with wrap key using ChaCha20-Poly1305
-        let cipher = ChaCha20Poly1305::new(Key::from_slice(&sensitive.wrap_key));
+        let cipher = ChaCha20Poly1305::from(Key::from_slice(&sensitive.wrap_key));
         let nonce = Nonce::from_slice(&nonce_bytes);
 
         let ciphertext = cipher.encrypt(nonce, sensitive.master_key.as_ref())
@@ -277,7 +277,7 @@ impl SettingsStore {
             .context("Failed to derive wrap key")?;
 
         // Decrypt master key to verify integrity
-        let cipher = ChaCha20Poly1305::new(Key::from_slice(&wrap_key));
+        let cipher = ChaCha20Poly1305::from(Key::from_slice(&wrap_key));
         let nonce = Nonce::from_slice(&nonce_bytes);
 
         let decrypt_result = cipher.decrypt(nonce, wrapped_master.as_ref());
