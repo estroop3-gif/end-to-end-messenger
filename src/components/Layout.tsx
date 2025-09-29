@@ -116,7 +116,7 @@ export default function Layout({
 
       {/* Prayer banner (optional) */}
       {showPrayer && (
-        <div className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white py-2 px-4">
+        <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white py-2 px-4">
           <div className="max-w-7xl mx-auto text-center text-sm">
             <Heart className="inline h-4 w-4 mr-2" />
 &ldquo;Trust in the Lord with all your heart and lean not on your own understanding.&rdquo; - Proverbs 3:5

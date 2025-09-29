@@ -85,11 +85,11 @@ export default function Home() {
               <div className="flex gap-2">
                 <button
                   onClick={() => setShowPrayer(false)}
-                  className="btn-primary flex-1"
+                  className="bg-primary-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200 flex-1"
                 >
                   Continue with Prayer
                 </button>
-                <Link href="/prayer" className="btn-outline">
+                <Link href="/prayer" className="border-2 border-primary-600 text-primary-600 px-4 py-2 rounded-lg font-medium hover:bg-primary-600 hover:text-white transition-all duration-200"
                   Submit Prayer
                 </Link>
               </div>
@@ -110,11 +110,11 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Link href="/downloads" className="btn-enhanced bg-white text-primary-700 hover:bg-gray-100 px-8 py-3 text-lg glow">
+            <Link href="/downloads" className="bg-white text-primary-700 hover:bg-gray-100 px-8 py-3 text-lg rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl">
               <Download className="h-5 w-5 mr-2" />
               Download Now
             </Link>
-            <Link href="/safety" className="btn-enhanced border-2 border-white text-white hover:bg-white hover:text-primary-700 px-8 py-3 text-lg">
+            <Link href="/safety" className="border-2 border-white text-white hover:bg-white hover:text-primary-700 px-8 py-3 text-lg rounded-lg font-medium transition-all duration-200">
               <Shield className="h-5 w-5 mr-2" />
               Safety Guide
             </Link>
@@ -195,7 +195,7 @@ export default function Home() {
               </div>
 
               <div className="mt-8">
-                <Link href="/safety" className="btn-primary inline-flex items-center">
+                <Link href="/safety" className="bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200 inline-flex items-center"
                   Complete Safety Guide
                   <ChevronRight className="h-4 w-4 ml-2" />
                 </Link>
@@ -221,7 +221,7 @@ export default function Home() {
                     <li>• Live USB/Tails OS for non-persistent usage</li>
                   </ul>
                 </div>
-                <Link href="/safety" className="btn bg-red-600 text-white hover:bg-red-700 mt-4">
+                <Link href="/safety" className="bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors duration-200 mt-4 inline-block">
                   Read Full Safety Guide
                 </Link>
               </div>
@@ -246,15 +246,15 @@ export default function Home() {
             submit prayers, and follow our faith-based code of conduct.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/scripture" className="btn-primary">
+            <Link href="/scripture" className="bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200 inline-flex items-center">
               <Book className="h-4 w-4 mr-2" />
               Read Scripture
             </Link>
-            <Link href="/prayer" className="btn-outline">
+            <Link href="/prayer" className="border-2 border-primary-600 text-primary-600 px-6 py-3 rounded-lg font-medium hover:bg-primary-600 hover:text-white transition-all duration-200 inline-flex items-center">
               <Heart className="h-4 w-4 mr-2" />
               Submit Prayer
             </Link>
-            <Link href="/conduct" className="btn-outline">
+            <Link href="/conduct" className="border-2 border-primary-600 text-primary-600 px-6 py-3 rounded-lg font-medium hover:bg-primary-600 hover:text-white transition-all duration-200 inline-flex items-center">
               <Scale className="h-4 w-4 mr-2" />
               Code of Conduct
             </Link>
