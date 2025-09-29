@@ -1,10 +1,9 @@
 // Simplified main.rs for compilation (stub implementation)
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use tauri::{AppHandle, State};
+use tauri::State;
 use std::sync::Mutex;
-use anyhow::{Result, anyhow};
-use serde::{Deserialize, Serialize};
+use anyhow::Result;
 
 mod crypto_stub;
 mod tor_integration;

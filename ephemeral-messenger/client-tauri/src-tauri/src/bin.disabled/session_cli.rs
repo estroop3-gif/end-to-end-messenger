@@ -9,7 +9,7 @@ use anyhow::Result;
 use serde_json;
 
 // Import session module from the main crate
-use secure_messaging_suite::{SessionManager, CipherAlgorithm, CipherCode, CipherPayload, SessionInfo};
+use secure_messaging_suite::{SessionManager, CipherAlgorithm, CipherCode};
 
 fn main() {
     let args: Vec<String> = env::args().collect();

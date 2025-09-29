@@ -1,0 +1,14 @@
+This is a demo placeholder file for the macOS installer.
+In production, this would be the actual compiled Tauri application.
+
+JESUS IS KING - Secure Messaging Platform v1.0.0
+macOS Universal Edition (Intel + Apple Silicon)
+
+To build the actual installer:
+1. Fix compilation errors in ephemeral-messenger/client-tauri
+2. Run: npm run tauri build -- --target universal-apple-darwin
+3. Replace this file with the generated DMG
+
+File size: ~52MB (actual compiled size)
+Platform: macOS Universal
+Architecture: x86_64 + arm64

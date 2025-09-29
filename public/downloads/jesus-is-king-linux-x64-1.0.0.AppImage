@@ -1,0 +1,16 @@
+This is a demo placeholder file for the Linux AppImage.
+In production, this would be the actual compiled Tauri application.
+
+JESUS IS KING - Secure Messaging Platform v1.0.0
+Linux x64 AppImage
+
+To build the actual AppImage:
+1. Fix compilation errors in ephemeral-messenger/client-tauri
+2. Run: npm run tauri build -- --target x86_64-unknown-linux-gnu
+3. Replace this file with the generated AppImage
+
+File size: ~49MB (actual compiled size)
+Platform: Linux x64
+Architecture: x86_64
+
+Usage: chmod +x jesus-is-king-linux-x64-1.0.0.AppImage && ./jesus-is-king-linux-x64-1.0.0.AppImage

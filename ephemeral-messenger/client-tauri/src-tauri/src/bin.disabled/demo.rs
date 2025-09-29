@@ -4,7 +4,6 @@
 use anyhow::Result;
 use clap::{Arg, Command};
 use std::fs;
-use std::path::Path;
 
 // Import our library
 use secure_messaging_suite::{
@@ -138,11 +137,11 @@ async fn cmd_encrypt(matches: &clap::ArgMatches) -> Result<()> {
 
     // Initialize crypto manager
     let mut crypto_manager = CryptoManager::new(false); // No hardware token for demo
-    crypto_manager.initialize().await?;
+    crypto_manager.initialize()?;
 
     // Generate identity if needed
     println!("  Generating identity...");
-    let identity = crypto_manager.generate_identity(false, Some("demo_passphrase".to_string())).await?;
+    let identity = crypto_manager.generate_identity(false, Some("demo_passphrase".to_string()))?;
     println!("  Identity fingerprint: {}", identity.fingerprint);
 
     // Create SecureDoc format
@@ -227,10 +226,10 @@ async fn cmd_generate_identity(matches: &clap::ArgMatches) -> Result<()> {
 
     // Initialize crypto manager
     let mut crypto_manager = CryptoManager::new(false);
-    crypto_manager.initialize().await?;
+    crypto_manager.initialize()?;
 
     // Generate identity
-    let identity = crypto_manager.generate_identity(false, Some("demo_passphrase".to_string())).await?;
+    let identity = crypto_manager.generate_identity(false, Some("demo_passphrase".to_string()))?;
 
     println!("✅ Identity generated!");
     println!("  Fingerprint: {}", identity.fingerprint);
@@ -253,7 +252,7 @@ async fn cmd_test_roundtrip(matches: &clap::ArgMatches) -> Result<()> {
 
     // Initialize crypto manager
     let mut crypto_manager = CryptoManager::new(false);
-    crypto_manager.initialize().await?;
+    crypto_manager.initialize()?;
 
     // Generate identity
     println!("  Generating identity...");

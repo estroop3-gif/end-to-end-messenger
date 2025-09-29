@@ -1,18 +1,12 @@
 'use client'
 
-import Link from 'next/link'
 import Layout from '../../components/Layout'
 import {
   Download,
-  Shield,
-  CheckCircle,
   AlertTriangle,
   Key,
   FileCheck,
-  ExternalLink,
-  Copy,
-  Eye,
-  Lock
+  Copy
 } from 'lucide-react'
 
 export default function Downloads() {
@@ -20,29 +14,29 @@ export default function Downloads() {
     {
       platform: 'Windows',
       version: '1.0.0',
-      size: '45.2 MB',
+      size: '455 bytes',
       file: 'jesus-is-king-windows-x64-1.0.0.exe',
-      sha256: 'a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456',
+      sha256: 'faa72bbca91fb83298097f009e63346fafdcf74f8ac75d838fb0b0732262b729',
       signature: 'jesus-is-king-windows-x64-1.0.0.exe.sig',
-      download_url: '#'
+      download_url: '/downloads/jesus-is-king-windows-x64-1.0.0.exe'
     },
     {
       platform: 'macOS',
       version: '1.0.0',
-      size: '52.1 MB',
+      size: '519 bytes',
       file: 'jesus-is-king-macos-universal-1.0.0.dmg',
-      sha256: 'b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef1234567a',
+      sha256: '4bcf34ac028bfa5413889a7c40966fde72dcef7a581ae2b56e2699ed8ca6c5d9',
       signature: 'jesus-is-king-macos-universal-1.0.0.dmg.sig',
-      download_url: '#'
+      download_url: '/downloads/jesus-is-king-macos-universal-1.0.0.dmg'
     },
     {
       platform: 'Linux',
       version: '1.0.0',
-      size: '48.7 MB',
+      size: '581 bytes',
       file: 'jesus-is-king-linux-x64-1.0.0.AppImage',
-      sha256: 'c3d4e5f6789012345678901234567890abcdef1234567890abcdef1234567ab2',
+      sha256: 'ff299c23b9ebe49789065bc271d2ecacf20a65b6d527393e028a4d444f7d854e',
       signature: 'jesus-is-king-linux-x64-1.0.0.AppImage.sig',
-      download_url: '#'
+      download_url: '/downloads/jesus-is-king-linux-x64-1.0.0.AppImage'
     }
   ]
 
@@ -124,7 +118,7 @@ mQINBGXXXXXXBEAC1234567890abcdef...
                       Download
                     </a>
                     <a
-                      href={download.download_url + '.sig'}
+                      href={'/downloads/' + download.signature}
                       className="btn-outline inline-flex items-center justify-center"
                       download
                     >
@@ -183,7 +177,7 @@ mQINBGXXXXXXBEAC1234567890abcdef...
                 Copy Public Key
               </button>
               <a
-                href="#"
+                href="/downloads/keys/jesus-is-king-signing-key.asc"
                 className="btn-outline inline-flex items-center justify-center"
                 download
               >
@@ -241,7 +235,7 @@ mQINBGXXXXXXBEAC1234567890abcdef...
                 </p>
                 <div className="bg-gray-900 text-gray-100 p-4 rounded-lg text-sm font-mono mb-4">
                   <div className="mb-2"># Download and import the key</div>
-                  <div className="mb-2">curl -O https://downloads.jesusisking.app/keys/jesus-is-king-signing-key.asc</div>
+                  <div className="mb-2">curl -O https://your-domain.com/downloads/keys/jesus-is-king-signing-key.asc</div>
                   <div className="mb-2">gpg --import jesus-is-king-signing-key.asc</div>
                   <div className="mb-2"># Verify the key fingerprint</div>
                   <div>gpg --fingerprint "JESUS IS KING"</div>

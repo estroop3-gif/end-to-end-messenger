@@ -2,7 +2,7 @@
 // This is a simplified implementation for development purposes
 // In production, use actual libsignal-protocol-rust
 
-use anyhow::{Result, anyhow};
+use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 

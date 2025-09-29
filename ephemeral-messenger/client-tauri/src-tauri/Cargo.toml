@@ -11,9 +11,14 @@ default-run = "app"
 name = "app"
 path = "src/main.rs"
 
+# Temporarily disable problematic binaries
 # [[bin]]
 # name = "session_cli"
 # path = "src/bin/session_cli.rs"
+
+# [[bin]]
+# name = "demo"
+# path = "src/bin/demo.rs"
 
 [build-dependencies]
 tauri-build = { version = "2.0.0", features = [] }

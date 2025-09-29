@@ -1,0 +1,14 @@
+This is a demo placeholder file for the Windows executable.
+In production, this would be the actual compiled Tauri application.
+
+JESUS IS KING - Secure Messaging Platform v1.0.0
+Windows x64 Edition
+
+To build the actual executable:
+1. Fix compilation errors in ephemeral-messenger/client-tauri
+2. Run: npm run tauri build
+3. Replace this file with the generated executable
+
+File size: ~45MB (actual compiled size)
+Platform: Windows x64
+Architecture: x86_64

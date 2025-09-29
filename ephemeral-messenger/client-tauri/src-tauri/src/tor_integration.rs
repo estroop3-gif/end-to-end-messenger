@@ -263,7 +263,7 @@ impl TorManager {
     /// Test onion service reachability
     pub async fn test_onion_reachability(&self, onion_address: &str) -> Result<bool> {
         // Try to connect through Tor SOCKS proxy
-        let proxy_addr = "127.0.0.1:9050";
+        let _proxy_addr = "127.0.0.1:9050";
 
         // TODO: Implement SOCKS5 connection test
         // For now, just return true

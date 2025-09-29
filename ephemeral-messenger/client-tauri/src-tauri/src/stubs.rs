@@ -118,9 +118,13 @@ pub mod keydetect {
 
 // Session module stub types
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CipherAlgorithm {
-    pub name: String,
-    pub key_size: usize,
+pub enum CipherAlgorithm {
+    Caesar { shift: usize },
+    Vigenere { keyword: String },
+    AEAD { key_size: usize },
+    OTP { pad_id: String, offset: usize, length: usize },
+    Aes256,
+    ChaCha20,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -166,13 +170,31 @@ impl SessionManager {
     pub fn decrypt(&self, _payload: &CipherPayload, _cipher_code: &CipherCode) -> Result<Vec<u8>> {
         Ok(vec![])
     }
-    pub fn generate_cipher_code(&self, _algorithm: &CipherAlgorithm, _key_data: &[u8]) -> Result<CipherCode> {
+    pub fn generate_cipher_code(&self, _label: String, _algorithm: CipherAlgorithm, _ttl_seconds: Option<u64>, _producer: String, _embed_secrets: bool) -> Result<CipherCode> {
         Ok(CipherCode {
             version: 1,
-            id: "stub".to_string(),
-            algorithm: _algorithm.clone(),
-            key_data: _key_data.to_vec(),
+            id: _label,
+            algorithm: _algorithm,
+            key_data: vec![1, 2, 3, 4], // Stub key data
         })
+    }
+    pub fn start_session(&self, _session_id: Option<String>, _cipher_code: CipherCode, _participants: Vec<String>, _ttl_minutes: Option<u64>) -> Result<String> {
+        Ok("stub_session_id".to_string())
+    }
+    pub fn join_session(&self, _cipher_code: CipherCode, _participants: Vec<String>) -> Result<String> {
+        Ok("stub_session_id".to_string())
+    }
+    pub fn list_active_sessions(&self) -> Result<Vec<SessionInfo>> {
+        Ok(vec![])
+    }
+    pub fn encrypt_session_message(&self, _session_id: String, _plaintext: &str) -> Result<Vec<u8>> {
+        Ok(_plaintext.as_bytes().to_vec())
+    }
+    pub fn decrypt_session_message(&self, _session_id: String, _encrypted: &[u8]) -> Result<String> {
+        Ok(String::from_utf8_lossy(_encrypted).to_string())
+    }
+    pub fn end_session(&self, _session_id: &str, _force: bool) -> Result<()> {
+        Ok(())
     }
 }
 
@@ -206,5 +228,37 @@ impl SecureDocFormat {
     }
     pub fn open_document(&self, _encrypted_data: &[u8], _passphrase: &str) -> Result<(Vec<u8>, SecureDocManifest)> {
         Ok((b"stub content".to_vec(), self.create_manifest()))
+    }
+    pub fn create_document(&self, _recipients: Vec<String>, _content: &[u8], _manifest: SecureDocManifest, _password: String) -> Result<Vec<u8>> {
+        Ok(b"stub encrypted document".to_vec())
+    }
+    pub fn apply_size_padding(data: &[u8], _target_size: usize) -> Vec<u8> {
+        data.to_vec()
+    }
+}
+
+// Crypto management stubs
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Identity {
+    pub fingerprint: String,
+    pub public_key: String,
+}
+
+pub struct CryptoManager {
+    use_hardware: bool,
+}
+
+impl CryptoManager {
+    pub fn new(use_hardware: bool) -> Self {
+        Self { use_hardware }
+    }
+    pub fn initialize(&mut self) -> Result<()> {
+        Ok(())
+    }
+    pub fn generate_identity(&self, _use_hardware: bool, _passphrase: Option<String>) -> Result<Identity> {
+        Ok(Identity {
+            fingerprint: "stub_fingerprint".to_string(),
+            public_key: "stub_public_key".to_string(),
+        })
     }
 }
