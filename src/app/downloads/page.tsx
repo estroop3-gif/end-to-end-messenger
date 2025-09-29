@@ -12,31 +12,32 @@ import {
 export default function Downloads() {
   const downloads = [
     {
-      platform: 'Windows',
-      version: '1.0.0',
-      size: '1.9 MB',
-      file: 'jesus-is-king-windows-x64-1.0.0.exe',
-      sha256: '074f60a81147445431b45cb0febb4f83838a8281416402357bf349b6bee962ea',
-      signature: 'jesus-is-king-windows-x64-1.0.0.exe.sig',
-      download_url: '/downloads/jesus-is-king-windows-x64-1.0.0.exe'
-    },
-    {
-      platform: 'macOS',
-      version: '1.0.0',
-      size: '1.9 MB',
-      file: 'jesus-is-king-macos-universal-1.0.0.dmg',
-      sha256: '074f60a81147445431b45cb0febb4f83838a8281416402357bf349b6bee962ea',
-      signature: 'jesus-is-king-macos-universal-1.0.0.dmg.sig',
-      download_url: '/downloads/jesus-is-king-macos-universal-1.0.0.dmg'
-    },
-    {
       platform: 'Linux',
       version: '1.0.0',
       size: '1.9 MB',
       file: 'jesus-is-king-linux-x64-1.0.0.AppImage',
       sha256: '074f60a81147445431b45cb0febb4f83838a8281416402357bf349b6bee962ea',
       signature: 'jesus-is-king-linux-x64-1.0.0.AppImage.sig',
-      download_url: '/downloads/jesus-is-king-linux-x64-1.0.0.AppImage'
+      download_url: '/downloads/jesus-is-king-linux-x64-1.0.0.AppImage',
+      status: 'available',
+      instructions: 'Download and run: chmod +x jesus-is-king-linux-x64-1.0.0.AppImage && ./jesus-is-king-linux-x64-1.0.0.AppImage'
+    }
+  ]
+
+  const upcomingDownloads = [
+    {
+      platform: 'Windows',
+      version: '1.0.0',
+      status: 'coming_soon',
+      reason: 'Windows cross-compilation requires additional toolchain setup',
+      eta: 'Available soon - Windows users can use WSL with Linux version'
+    },
+    {
+      platform: 'macOS',
+      version: '1.0.0',
+      status: 'coming_soon',
+      reason: 'macOS cross-compilation requires Apple development tools',
+      eta: 'Available soon - macOS users can use the Linux version with compatible tools'
     }
   ]
 
@@ -106,6 +107,14 @@ mQINBGXXXXXXBEAC1234567890abcdef...
                     <p className="text-gray-600">
                       Size: {download.size}
                     </p>
+                    {download.instructions && (
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500 mb-2">Installation:</p>
+                        <code className="text-xs bg-gray-100 px-2 py-1 rounded block">
+                          {download.instructions}
+                        </code>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3">
@@ -146,6 +155,62 @@ mQINBGXXXXXXBEAC1234567890abcdef...
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Upcoming Downloads Section */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+            <AlertTriangle className="h-8 w-8 text-amber-600 mr-3" />
+            Coming Soon
+          </h2>
+
+          <div className="space-y-6">
+            {upcomingDownloads.map((download, index) => (
+              <div key={index} className="card border-amber-200 bg-amber-50">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                  <div className="mb-4 lg:mb-0">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center">
+                      {download.platform} v{download.version}
+                      <span className="ml-3 px-2 py-1 bg-amber-200 text-amber-800 text-sm rounded">
+                        Coming Soon
+                      </span>
+                    </h3>
+                    <p className="text-gray-600 mb-2">
+                      <strong>Status:</strong> {download.reason}
+                    </p>
+                    <p className="text-gray-600">
+                      <strong>Alternative:</strong> {download.eta}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      disabled
+                      className="btn-outline opacity-50 cursor-not-allowed inline-flex items-center justify-center"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      Not Available Yet
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="alert-info mt-6">
+            <h4 className="font-semibold mb-2">🔧 For Windows Users:</h4>
+            <p className="mb-4">
+              While we work on native Windows builds, you can run the Linux version using:
+            </p>
+            <ul className="list-disc list-inside space-y-2 text-sm">
+              <li><strong>WSL (Windows Subsystem for Linux):</strong> Install Ubuntu from Microsoft Store, then download the Linux version</li>
+              <li><strong>Docker:</strong> Run in a Linux container</li>
+              <li><strong>VirtualBox/VMware:</strong> Use a Linux virtual machine</li>
+            </ul>
+            <p className="mt-4 text-sm">
+              We're working on native Windows support and will update this page when available.
+            </p>
           </div>
         </section>
 
