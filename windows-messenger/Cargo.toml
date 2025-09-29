@@ -8,7 +8,7 @@ edition = "2021"
 
 [[bin]]
 name = "jesus-is-king-messenger-windows"
-path = "src/simple_main.rs"
+path = "src/cross_platform_main.rs"
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
@@ -30,6 +30,9 @@ zeroize = { version = "1.7", features = ["zeroize_derive"] }
 
 # Cross-platform terminal handling
 crossterm = "0.28"
+
+# Remove Windows-specific dependencies for cross-compilation
+# These will be added back once we have a working base
 
 [profile.release]
 lto = true

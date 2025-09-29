@@ -14,9 +14,9 @@ export default function Downloads() {
     {
       platform: 'Windows',
       version: '1.0.0',
-      size: '2.1 MB',
+      size: '852 KB',
       file: 'jesus-is-king-messenger-windows.exe',
-      sha256: '2e1da2d5a0d59b8ee8dc77b2ad35269b2fe999a2ceb2871735bc5ce42408d4c6',
+      sha256: '63bbda06088617ccac4f33b97bec754bddc126f340948c937d528716e9cf89cb',
       signature: 'jesus-is-king-messenger-windows.exe.sig',
       download_url: '/downloads/jesus-is-king-messenger-windows.exe',
       status: 'available',
