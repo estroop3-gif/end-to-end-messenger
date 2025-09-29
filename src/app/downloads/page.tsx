@@ -199,17 +199,148 @@ mQINBGXXXXXXBEAC1234567890abcdef...
           </div>
 
           <div className="alert-info mt-6">
-            <h4 className="font-semibold mb-2">🔧 For Windows Users:</h4>
-            <p className="mb-4">
-              While we work on native Windows builds, you can run the Linux version using:
+            <h4 className="font-semibold mb-4">🔧 Complete Step-by-Step Guide for Windows Users</h4>
+            <p className="mb-6">
+              While we work on native Windows builds, you can run the Linux version using Windows Subsystem for Linux (WSL).
+              This provides the <strong>exact same functionality</strong> as the native Linux version with full encryption support.
             </p>
-            <ul className="list-disc list-inside space-y-2 text-sm">
-              <li><strong>WSL (Windows Subsystem for Linux):</strong> Install Ubuntu from Microsoft Store, then download the Linux version</li>
-              <li><strong>Docker:</strong> Run in a Linux container</li>
-              <li><strong>VirtualBox/VMware:</strong> Use a Linux virtual machine</li>
-            </ul>
-            <p className="mt-4 text-sm">
-              We're working on native Windows support and will update this page when available.
+
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+              <h5 className="font-semibold text-green-800 mb-2">⚡ Quick Start (5 minutes)</h5>
+              <p className="text-green-700 text-sm">
+                Most Windows 10/11 users can get up and running in under 5 minutes using WSL.
+                No technical expertise required - just follow the numbered steps below!
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              {/* WSL Method */}
+              <div className="border-l-4 border-blue-500 pl-4">
+                <h5 className="font-semibold text-lg mb-3">✅ Method 1: WSL (Recommended - Easy Setup)</h5>
+
+                <div className="space-y-4">
+                  <div>
+                    <h6 className="font-medium mb-2">Step 1: Install WSL</h6>
+                    <ol className="list-decimal list-inside space-y-1 text-sm ml-4">
+                      <li>Open <strong>Command Prompt</strong> or <strong>PowerShell</strong> as Administrator</li>
+                      <li>Run: <code className="bg-gray-200 px-1 rounded">wsl --install</code></li>
+                      <li>Restart your computer when prompted</li>
+                      <li>After restart, Ubuntu will automatically open and complete setup</li>
+                      <li>Create a username and password when prompted</li>
+                    </ol>
+                  </div>
+
+                  <div>
+                    <h6 className="font-medium mb-2">Step 2: Download and Run JESUS IS KING Messenger</h6>
+                    <ol className="list-decimal list-inside space-y-1 text-sm ml-4">
+                      <li>Open Ubuntu from your Start Menu</li>
+                      <li>Download the Linux version:
+                        <div className="bg-gray-900 text-green-400 p-2 rounded mt-1 font-mono text-xs">
+                          wget https://jesusisking.app/downloads/jesus-is-king-linux-x64-1.0.0.AppImage
+                        </div>
+                      </li>
+                      <li>Make it executable:
+                        <div className="bg-gray-900 text-green-400 p-2 rounded mt-1 font-mono text-xs">
+                          chmod +x jesus-is-king-linux-x64-1.0.0.AppImage
+                        </div>
+                      </li>
+                      <li>Run the application:
+                        <div className="bg-gray-900 text-green-400 p-2 rounded mt-1 font-mono text-xs">
+                          ./jesus-is-king-linux-x64-1.0.0.AppImage verse
+                        </div>
+                      </li>
+                      <li>Start secure messaging:
+                        <div className="bg-gray-900 text-green-400 p-2 rounded mt-1 font-mono text-xs">
+                          ./jesus-is-king-linux-x64-1.0.0.AppImage chat
+                        </div>
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+
+              {/* Alternative Methods */}
+              <div className="border-l-4 border-amber-500 pl-4">
+                <h5 className="font-semibold text-lg mb-3">⚙️ Alternative Methods</h5>
+
+                <div className="space-y-4">
+                  <div>
+                    <h6 className="font-medium mb-2">Method 2: Docker Desktop</h6>
+                    <ol className="list-decimal list-inside space-y-1 text-sm ml-4">
+                      <li>Install <a href="https://docs.docker.com/desktop/install/windows-install/" className="text-blue-600 underline">Docker Desktop for Windows</a></li>
+                      <li>Open Command Prompt and run:
+                        <div className="bg-gray-900 text-green-400 p-2 rounded mt-1 font-mono text-xs">
+                          docker run -it --rm ubuntu:22.04 bash
+                        </div>
+                      </li>
+                      <li>Inside the container, install and run:
+                        <div className="bg-gray-900 text-green-400 p-2 rounded mt-1 font-mono text-xs space-y-1">
+                          <div>apt update && apt install -y wget</div>
+                          <div>wget https://jesusisking.app/downloads/jesus-is-king-linux-x64-1.0.0.AppImage</div>
+                          <div>chmod +x jesus-is-king-linux-x64-1.0.0.AppImage</div>
+                          <div>./jesus-is-king-linux-x64-1.0.0.AppImage chat</div>
+                        </div>
+                      </li>
+                    </ol>
+                  </div>
+
+                  <div>
+                    <h6 className="font-medium mb-2">Method 3: VirtualBox (Full Linux Experience)</h6>
+                    <ol className="list-decimal list-inside space-y-1 text-sm ml-4">
+                      <li>Download and install <a href="https://www.virtualbox.org/wiki/Downloads" className="text-blue-600 underline">VirtualBox</a></li>
+                      <li>Download <a href="https://ubuntu.com/download/desktop" className="text-blue-600 underline">Ubuntu Desktop ISO</a></li>
+                      <li>Create a new VM with at least 2GB RAM and 20GB storage</li>
+                      <li>Install Ubuntu following the setup wizard</li>
+                      <li>Download and run the Linux AppImage as shown in Method 1</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+
+              {/* Troubleshooting */}
+              <div className="border-l-4 border-red-500 pl-4">
+                <h5 className="font-semibold text-lg mb-3">🛠️ Troubleshooting</h5>
+
+                <div className="space-y-3 text-sm">
+                  <div>
+                    <strong>WSL not installing?</strong>
+                    <ul className="list-disc list-inside ml-4 mt-1">
+                      <li>Ensure you're running Windows 10 version 2004+ or Windows 11</li>
+                      <li>Enable "Virtual Machine Platform" in Windows Features</li>
+                      <li>Try: <code className="bg-gray-200 px-1 rounded">wsl --install -d Ubuntu</code></li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <strong>AppImage won't run?</strong>
+                    <ul className="list-disc list-inside ml-4 mt-1">
+                      <li>Install required packages: <code className="bg-gray-200 px-1 rounded">sudo apt update && sudo apt install fuse</code></li>
+                      <li>Check file permissions: <code className="bg-gray-200 px-1 rounded">ls -la jesus-is-king-*.AppImage</code></li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <strong>Need help?</strong>
+                    <ul className="list-disc list-inside ml-4 mt-1">
+                      <li>Run: <code className="bg-gray-200 px-1 rounded">./jesus-is-king-linux-x64-1.0.0.AppImage --help</code></li>
+                      <li>Check the verification instructions below for security</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Security Note */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h5 className="font-semibold text-blue-800 mb-2">🔒 Security Reminder</h5>
+                <p className="text-blue-700 text-sm">
+                  Always verify the downloaded file using the SHA256 checksum and GPG signature shown below
+                  before running. This ensures you have the authentic, unmodified JESUS IS KING messenger.
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-6 text-sm font-medium">
+              📢 We're actively working on native Windows support and will update this page when available.
             </p>
           </div>
         </section>
