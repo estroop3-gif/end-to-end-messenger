@@ -62,6 +62,31 @@ interface ScriptureSettings {
   daily_verse_source: string;
 }
 
+interface DeadManSwitchSettings {
+  enabled: boolean;
+  check_interval_hours: number;
+  max_inactive_hours: number;
+  policy_signature: string | null;
+  policy_hash: string | null;
+  admin_pubkey: string | null;
+  machine_binding: string | null;
+  last_checkin: number | null;
+  configured_at: number | null;
+}
+
+interface DmsPolicy {
+  version: number;
+  policy_id: string;
+  admin_pubkey: string;
+  machine_binding: string;
+  max_inactive_hours: number;
+  check_interval_hours: number;
+  wipe_actions: string[];
+  emergency_contact: string | null;
+  created_at: number;
+  expires_at: number | null;
+}
+
 interface HazardWarning {
   title: string;
   message: string;
@@ -138,9 +163,22 @@ const SettingsSecurity: React.FC = () => {
   const [approvalAction, setApprovalAction] = useState<string>('');
   const [adminPassphrase, setAdminPassphrase] = useState('');
 
+  // Dead-Man Switch state
+  const [dmsSettings, setDmsSettings] = useState<DeadManSwitchSettings | null>(null);
+  const [showDmsConfiguration, setShowDmsConfiguration] = useState(false);
+  const [dmsPolicy, setDmsPolicy] = useState<DmsPolicy | null>(null);
+  const [policyJson, setPolicyJson] = useState('');
+  const [policySignature, setPolicySignature] = useState('');
+  const [adminPublicKey, setAdminPublicKey] = useState('');
+  const [machineId, setMachineId] = useState('');
+  const [dmsCountdown, setDmsCountdown] = useState<number | null>(null);
+  const [showDmsWarning, setShowDmsWarning] = useState(false);
+
   useEffect(() => {
     loadSettings();
     loadHazardWarning();
+    loadDmsSettings();
+    loadMachineId();
   }, []);
 
   const loadSettings = async () => {
@@ -271,6 +309,135 @@ const SettingsSecurity: React.FC = () => {
     return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
   };
 
+  // Dead-Man Switch functions
+  const loadDmsSettings = async () => {
+    try {
+      await invoke('initialize_dms');
+      const settings = await invoke('get_dms_settings');
+      setDmsSettings(settings);
+    } catch (err) {
+      console.error('Failed to load DMS settings:', err);
+    }
+  };
+
+  const loadMachineId = async () => {
+    try {
+      const id = await invoke('get_machine_identifier');
+      setMachineId(id);
+    } catch (err) {
+      console.error('Failed to load machine ID:', err);
+    }
+  };
+
+  const verifyDmsPolicy = async () => {
+    if (!policyJson || !policySignature || !adminPublicKey) {
+      setError('All DMS policy fields are required');
+      return;
+    }
+
+    try {
+      const policy = await invoke('verify_dms_policy', {
+        policyJson,
+        signatureB64: policySignature,
+        adminPubkeyB64: adminPublicKey,
+      });
+      setDmsPolicy(policy);
+    } catch (err) {
+      setError(`Policy verification failed: ${err}`);
+    }
+  };
+
+  const configureDms = async () => {
+    if (!dmsPolicy || !policySignature) {
+      setError('Policy must be verified before configuration');
+      return;
+    }
+
+    try {
+      await invoke('configure_dms', {
+        policy: dmsPolicy,
+        signature: policySignature,
+      });
+      await loadDmsSettings();
+      setShowDmsConfiguration(false);
+      setPolicyJson('');
+      setPolicySignature('');
+      setAdminPublicKey('');
+    } catch (err) {
+      setError(`DMS configuration failed: ${err}`);
+    }
+  };
+
+  const performDmsCheckin = async () => {
+    try {
+      await invoke('perform_dms_checkin');
+      await loadDmsSettings();
+    } catch (err) {
+      setError(`DMS checkin failed: ${err}`);
+    }
+  };
+
+  const checkDmsStatus = async () => {
+    try {
+      const shouldTrigger = await invoke('check_dms_status');
+      if (shouldTrigger) {
+        setShowDmsWarning(true);
+        // Start countdown for emergency wipe
+        const countdownTime = 300; // 5 minutes
+        setDmsCountdown(countdownTime);
+
+        const countdown = setInterval(() => {
+          setDmsCountdown(prev => {
+            if (prev && prev > 1) {
+              return prev - 1;
+            } else {
+              clearInterval(countdown);
+              triggerEmergencyWipe('DMS timeout expired');
+              return 0;
+            }
+          });
+        }, 1000);
+      }
+    } catch (err) {
+      console.error('DMS status check failed:', err);
+    }
+  };
+
+  const triggerEmergencyWipe = async (reason: string) => {
+    try {
+      await invoke('trigger_emergency_wipe', { reason });
+      alert('Emergency wipe has been triggered. Application will close.');
+      // Application should close itself after this
+    } catch (err) {
+      setError(`Emergency wipe failed: ${err}`);
+    }
+  };
+
+  const disableDms = async (adminSignature: string) => {
+    try {
+      await invoke('disable_dms', { adminSignature });
+      await loadDmsSettings();
+      setShowDmsWarning(false);
+      setDmsCountdown(null);
+    } catch (err) {
+      setError(`Failed to disable DMS: ${err}`);
+    }
+  };
+
+  const formatDuration = (hours: number): string => {
+    if (hours < 24) {
+      return `${hours} hour${hours !== 1 ? 's' : ''}`;
+    } else {
+      const days = Math.floor(hours / 24);
+      const remainingHours = hours % 24;
+      return `${days} day${days !== 1 ? 's' : ''}${remainingHours > 0 ? ` ${remainingHours} hour${remainingHours !== 1 ? 's' : ''}` : ''}`;
+    }
+  };
+
+  const formatTimestamp = (timestamp: number): string => {
+    return new Date(timestamp * 1000).toLocaleString();
+  };
+
   const getStrengthColor = (level: string): string => {
     switch (level) {
       case 'Weak': return 'var(--color-error)';
@@ -347,7 +514,71 @@ const SettingsSecurity: React.FC = () => {
         >
           📖 Scripture
         </button>
+        <button
+          className={`nav-tab ${activeSection === 'dms' ? 'active' : ''}`}
+          onClick={() => setActiveSection('dms')}
+        >
+          ⏱️ Dead-Man Switch
+        </button>
       </div>
+
+      {/* DMS Emergency Warning Overlay */}
+      {showDmsWarning && dmsCountdown !== null && (
+        <div className="dms-emergency-overlay">
+          <div className="dms-emergency-dialog">
+            <div className="emergency-header">
+              <h2>🚨 DEAD-MAN SWITCH TRIGGERED</h2>
+              <div className="countdown-display">
+                <span className="countdown-time">{Math.floor(dmsCountdown / 60)}:{(dmsCountdown % 60).toString().padStart(2, '0')}</span>
+                <span className="countdown-label">until emergency wipe</span>
+              </div>
+            </div>
+
+            <div className="emergency-content">
+              <p>The Dead-Man Switch has detected prolonged inactivity and will trigger an emergency wipe in:</p>
+
+              <div className="emergency-actions">
+                <button
+                  onClick={performDmsCheckin}
+                  className="checkin-button"
+                >
+                  ✅ I'm Here - Perform Check-in
+                </button>
+
+                <div className="admin-override">
+                  <h4>Admin Override:</h4>
+                  <input
+                    type="text"
+                    placeholder="Admin signature to disable DMS"
+                    className="admin-signature-input"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        disableDms(e.currentTarget.value);
+                      }
+                    }}
+                  />
+                  <button
+                    onClick={() => {
+                      const input = document.querySelector('.admin-signature-input') as HTMLInputElement;
+                      if (input?.value) {
+                        disableDms(input.value);
+                      }
+                    }}
+                    className="override-button"
+                  >
+                    🔓 Admin Override
+                  </button>
+                </div>
+              </div>
+
+              <div className="emergency-warning">
+                <p>⚠️ If no action is taken, all sensitive data will be securely wiped.</p>
+                <p>This action cannot be undone.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="settings-content">
         {/* Access Mode Section */}
@@ -714,6 +945,223 @@ const SettingsSecurity: React.FC = () => {
             <h2>📖 Scripture & Branding Settings</h2>
             <p>Configure ESV access, prayer features, and spiritual content</p>
             {/* Scripture settings implementation */}
+          </div>
+        )}
+
+        {/* Dead-Man Switch Section */}
+        {activeSection === 'dms' && (
+          <div className="settings-section">
+            <div className="section-header">
+              <h2>⏱️ Dead-Man Switch Configuration</h2>
+              <p>Configure automated security responses for prolonged inactivity</p>
+            </div>
+
+            <div className="dms-status-card">
+              <h3>🔍 Current Status</h3>
+              {dmsSettings ? (
+                <div className="status-info">
+                  <div className="status-row">
+                    <span className="status-label">Status:</span>
+                    <span className={`status-value ${dmsSettings.enabled ? 'enabled' : 'disabled'}`}>
+                      {dmsSettings.enabled ? '✅ Enabled' : '⭕ Disabled'}
+                    </span>
+                  </div>
+
+                  {dmsSettings.enabled && (
+                    <>
+                      <div className="status-row">
+                        <span className="status-label">Check Interval:</span>
+                        <span className="status-value">{formatDuration(dmsSettings.check_interval_hours)}</span>
+                      </div>
+                      <div className="status-row">
+                        <span className="status-label">Max Inactive Time:</span>
+                        <span className="status-value">{formatDuration(dmsSettings.max_inactive_hours)}</span>
+                      </div>
+                      <div className="status-row">
+                        <span className="status-label">Last Check-in:</span>
+                        <span className="status-value">
+                          {dmsSettings.last_checkin ? formatTimestamp(dmsSettings.last_checkin) : 'Never'}
+                        </span>
+                      </div>
+                      {dmsSettings.configured_at && (
+                        <div className="status-row">
+                          <span className="status-label">Configured:</span>
+                          <span className="status-value">{formatTimestamp(dmsSettings.configured_at)}</span>
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  <div className="status-actions">
+                    {dmsSettings.enabled && (
+                      <button onClick={performDmsCheckin} className="checkin-button">
+                        ✅ Perform Check-in
+                      </button>
+                    )}
+                    <button onClick={checkDmsStatus} className="status-check-button">
+                      🔍 Check DMS Status
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="loading-status">
+                  <p>Loading DMS status...</p>
+                </div>
+              )}
+            </div>
+
+            <div className="machine-info-card">
+              <h3>🖥️ Machine Information</h3>
+              <div className="machine-details">
+                <div className="info-row">
+                  <span className="info-label">Machine ID:</span>
+                  <code className="machine-id">{machineId || 'Loading...'}</code>
+                </div>
+                <p className="info-note">
+                  This identifier is used to bind DMS policies to this specific machine.
+                </p>
+              </div>
+            </div>
+
+            <div className="dms-configuration-card">
+              <div className="card-header">
+                <h3>⚙️ DMS Configuration</h3>
+                <button
+                  onClick={() => setShowDmsConfiguration(!showDmsConfiguration)}
+                  className="expand-button"
+                >
+                  {showDmsConfiguration ? '▼' : '▶'} Configure DMS Policy
+                </button>
+              </div>
+
+              {showDmsConfiguration && (
+                <div className="dms-config-form">
+                  <div className="config-warning">
+                    <h4>⚠️ Administrative Authorization Required</h4>
+                    <p>
+                      Dead-Man Switch configuration requires a signed policy from an authorized administrator.
+                      The policy must be cryptographically signed and machine-bound for security.
+                    </p>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Admin Public Key (Base64)</label>
+                    <input
+                      type="text"
+                      value={adminPublicKey}
+                      onChange={(e) => setAdminPublicKey(e.target.value)}
+                      placeholder="Enter Ed25519 public key in Base64 format"
+                      className="pubkey-input"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>DMS Policy (JSON)</label>
+                    <textarea
+                      value={policyJson}
+                      onChange={(e) => setPolicyJson(e.target.value)}
+                      placeholder={`{
+  "version": 1,
+  "policy_id": "example_policy",
+  "admin_pubkey": "base64_encoded_public_key",
+  "machine_binding": "${machineId}",
+  "max_inactive_hours": 168,
+  "check_interval_hours": 24,
+  "wipe_actions": ["SecureDelete", "ClearCredentials"],
+  "emergency_contact": null,
+  "created_at": ${Math.floor(Date.now() / 1000)},
+  "expires_at": null
+}`}
+                      className="policy-textarea"
+                      rows={12}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Policy Signature (Base64)</label>
+                    <input
+                      type="text"
+                      value={policySignature}
+                      onChange={(e) => setPolicySignature(e.target.value)}
+                      placeholder="Enter Ed25519 signature of the policy JSON"
+                      className="signature-input"
+                    />
+                  </div>
+
+                  <div className="config-actions">
+                    <button
+                      onClick={verifyDmsPolicy}
+                      className="verify-button"
+                      disabled={!policyJson || !policySignature || !adminPublicKey}
+                    >
+                      🔐 Verify Policy
+                    </button>
+
+                    {dmsPolicy && (
+                      <div className="policy-verified">
+                        <h4>✅ Policy Verified</h4>
+                        <div className="policy-summary">
+                          <p><strong>Policy ID:</strong> {dmsPolicy.policy_id}</p>
+                          <p><strong>Max Inactive:</strong> {formatDuration(dmsPolicy.max_inactive_hours)}</p>
+                          <p><strong>Check Interval:</strong> {formatDuration(dmsPolicy.check_interval_hours)}</p>
+                          <p><strong>Wipe Actions:</strong> {dmsPolicy.wipe_actions.join(', ')}</p>
+                        </div>
+
+                        <button
+                          onClick={configureDms}
+                          className="configure-button"
+                        >
+                          🔧 Apply DMS Configuration
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="dms-info-card">
+              <h3>ℹ️ About Dead-Man Switch</h3>
+              <div className="info-content">
+                <p>
+                  The Dead-Man Switch (DMS) is a security feature that monitors user activity and automatically
+                  triggers emergency procedures if the user becomes unavailable for an extended period.
+                </p>
+
+                <div className="info-section">
+                  <h4>🔒 Security Features:</h4>
+                  <ul>
+                    <li>Policy-based configuration with cryptographic verification</li>
+                    <li>Machine-bound policies prevent unauthorized transfer</li>
+                    <li>Configurable check-in intervals and inactivity thresholds</li>
+                    <li>Multiple wipe actions: secure deletion, credential clearing, memory overwrite</li>
+                    <li>Admin override capabilities with signature verification</li>
+                    <li>Comprehensive audit logging to removable media</li>
+                  </ul>
+                </div>
+
+                <div className="info-section">
+                  <h4>⚠️ Important Notes:</h4>
+                  <ul>
+                    <li><strong>OFF by default</strong> - Must be explicitly enabled via Settings</li>
+                    <li><strong>Admin approval required</strong> - Policies must be signed by authorized administrators</li>
+                    <li><strong>Machine-bound</strong> - Policies are tied to specific hardware identifiers</li>
+                    <li><strong>Irreversible</strong> - Emergency wipe actions cannot be undone</li>
+                    <li><strong>Failsafe design</strong> - System remains secure even under compromise scenarios</li>
+                  </ul>
+                </div>
+
+                <div className="scripture-section">
+                  <div className="scripture-verse">
+                    "Be watchful, stand firm in the faith, act like men, be strong." - 1 Corinthians 16:13
+                  </div>
+                  <p>
+                    God calls us to be vigilant and prepared. The Dead-Man Switch serves as a faithful guardian,
+                    ensuring our digital stewardship remains secure even in unforeseen circumstances.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>

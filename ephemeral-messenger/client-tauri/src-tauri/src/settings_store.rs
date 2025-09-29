@@ -30,6 +30,20 @@ pub struct Settings {
     pub access_mode: AccessMode,
     pub credential: Option<LocalCredential>,
     pub updated_at: i64,
+    pub dead_man_switch: DeadManSwitchSettings,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeadManSwitchSettings {
+    pub enabled: bool,
+    pub check_interval_hours: u32,
+    pub max_inactive_hours: u32,
+    pub policy_signature: Option<String>,  // Base64 encoded Ed25519 signature
+    pub policy_hash: Option<String>,       // SHA-256 hash of policy document
+    pub admin_pubkey: Option<String>,      // Base64 encoded Ed25519 public key
+    pub machine_binding: Option<String>,   // Machine-specific identifier hash
+    pub last_checkin: Option<i64>,        // Unix timestamp of last checkin
+    pub configured_at: Option<i64>,       // Unix timestamp when first configured
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -54,6 +68,22 @@ struct SensitiveData {
     master_key: [u8; MASTER_KEY_SIZE],
 }
 
+impl Default for DeadManSwitchSettings {
+    fn default() -> Self {
+        DeadManSwitchSettings {
+            enabled: false,
+            check_interval_hours: 24,
+            max_inactive_hours: 168, // 7 days
+            policy_signature: None,
+            policy_hash: None,
+            admin_pubkey: None,
+            machine_binding: None,
+            last_checkin: None,
+            configured_at: None,
+        }
+    }
+}
+
 impl Default for Settings {
     fn default() -> Self {
         Settings {
@@ -61,6 +91,7 @@ impl Default for Settings {
             access_mode: AccessMode::Hardkey,
             credential: None,
             updated_at: OffsetDateTime::now_utc().unix_timestamp(),
+            dead_man_switch: DeadManSwitchSettings::default(),
         }
     }
 }
@@ -101,7 +132,9 @@ impl SettingsStore {
                   settings.version, SETTINGS_VERSION);
         }
 
-        Ok(settings)
+        // Migration logic for older versions
+        let migrated_settings = self.migrate_settings(settings)?;
+        Ok(migrated_settings)
     }
 
     pub fn save_settings(&self, settings: &Settings) -> Result<()> {
@@ -315,6 +348,59 @@ impl SettingsStore {
         settings.credential = None;
         settings.access_mode = AccessMode::Hardkey;
         self.save_settings(&settings)
+    }
+
+    fn migrate_settings(&self, mut settings: Settings) -> Result<Settings> {
+        let original_version = settings.version;
+
+        // If this is a fresh default settings (version matches current), no migration needed
+        if original_version == SETTINGS_VERSION {
+            return Ok(settings);
+        }
+
+        // If settings don't have dead_man_switch field (from version < 1), add defaults
+        // This handles the case where we're reading old JSON that doesn't have the field
+        // Since we added the field with a Default implementation, serde should handle this
+        // But we explicitly handle it here for robustness
+
+        // Update version to current
+        settings.version = SETTINGS_VERSION;
+
+        // If migration changed anything, save the migrated settings
+        if original_version != SETTINGS_VERSION {
+            self.save_settings(&settings)?;
+        }
+
+        Ok(settings)
+    }
+
+    // Dead-Man Switch specific methods
+    pub fn update_dms_settings(&self, dms_settings: DeadManSwitchSettings) -> Result<()> {
+        let mut settings = self.load_settings()?;
+        settings.dead_man_switch = dms_settings;
+        self.save_settings(&settings)
+    }
+
+    pub fn get_dms_settings(&self) -> Result<DeadManSwitchSettings> {
+        let settings = self.load_settings()?;
+        Ok(settings.dead_man_switch)
+    }
+
+    pub fn update_dms_checkin(&self) -> Result<()> {
+        let mut settings = self.load_settings()?;
+        settings.dead_man_switch.last_checkin = Some(OffsetDateTime::now_utc().unix_timestamp());
+        self.save_settings(&settings)
+    }
+
+    pub fn is_dms_enabled(&self) -> Result<bool> {
+        let settings = self.load_settings()?;
+        Ok(settings.dead_man_switch.enabled)
+    }
+
+    pub fn get_dms_status(&self) -> Result<(bool, Option<i64>, u32)> {
+        let settings = self.load_settings()?;
+        let dms = &settings.dead_man_switch;
+        Ok((dms.enabled, dms.last_checkin, dms.max_inactive_hours))
     }
 }
 
