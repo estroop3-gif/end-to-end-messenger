@@ -11,13 +11,13 @@ use sodiumoxide::crypto::{
     pwhash::{self, argon2id13},
     randombytes,
 };
-use age::{self, Encryptor, Decryptor, x25519, armor};
+use age::{self, Encryptor, Decryptor, x25519};
 use std::io::{Read, Write};
 use std::collections::HashMap;
 
 // TODO: Replace with actual libsignal-protocol bindings
 // For now using placeholder that implements similar interface
-use crate::signal_placeholder::{SignalSession, SignalStore, PreKey};
+use signal_placeholder::{SignalSession, SignalStore, PreKey};
 
 #[derive(Debug, Clone, Serialize, Deserialize, Zeroize, ZeroizeOnDrop)]
 pub struct Identity {

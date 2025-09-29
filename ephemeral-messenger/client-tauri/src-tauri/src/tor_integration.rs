@@ -4,6 +4,7 @@
 use anyhow::{Result, anyhow};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use base64::{Engine as _, engine::general_purpose};
 use std::net::TcpStream;
 use std::io::{BufReader, BufRead, Write};
 use std::time::{SystemTime, UNIX_EPOCH, Duration};
@@ -275,12 +276,12 @@ impl TorManager {
         use x25519_dalek::{StaticSecret, PublicKey};
         use rand::rngs::OsRng;
 
-        let private_key = StaticSecret::new(OsRng);
+        let private_key = StaticSecret::random_from_rng(OsRng);
         let public_key = PublicKey::from(&private_key);
 
         // Format for Tor client authorization
-        let private_key_str = base64::encode(private_key.to_bytes());
-        let public_key_str = format!("descriptor:x25519:{}", base64::encode(public_key.as_bytes()));
+        let private_key_str = general_purpose::STANDARD.encode(private_key.to_bytes());
+        let public_key_str = format!("descriptor:x25519:{}", general_purpose::STANDARD.encode(public_key.as_bytes()));
 
         Ok((private_key_str, public_key_str))
     }

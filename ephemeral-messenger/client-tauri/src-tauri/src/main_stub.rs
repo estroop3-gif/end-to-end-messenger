@@ -1,7 +1,7 @@
 // Simplified main.rs for compilation (stub implementation)
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use tauri::{AppHandle, State};
+use tauri::{AppHandle, Manager, State};
 use std::sync::Mutex;
 use anyhow::{Result, anyhow};
 use serde::{Deserialize, Serialize};
@@ -56,20 +56,18 @@ async fn logout_cmd(state: State<'_, LoginState>) -> Result<(), String> {
 
 #[tauri::command]
 async fn get_current_identity(app_state: State<'_, AppState>) -> Result<crypto_stub::Identity, String> {
-    let identity = {
-        let mut crypto_manager = app_state.crypto_manager.lock().unwrap();
-        crypto_manager.generate_identity(false, Some("test".to_string()))
-    };
-    identity.map_err(|e| e.to_string())
+    let mut crypto_manager = app_state.crypto_manager.lock().unwrap();
+    crypto_manager.generate_identity(false, Some("test".to_string()))
+        .await
+        .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 async fn initialize_crypto(app_state: State<'_, AppState>) -> Result<(), String> {
-    let result = {
-        let mut crypto_manager = app_state.crypto_manager.lock().unwrap();
-        crypto_manager.initialize()
-    };
-    result.map_err(|e| e.to_string())
+    let mut crypto_manager = app_state.crypto_manager.lock().unwrap();
+    crypto_manager.initialize()
+        .await
+        .map_err(|e| e.to_string())
 }
 
 fn main() {

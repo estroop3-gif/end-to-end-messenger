@@ -21,7 +21,7 @@ fn main() {
 
     let command = &args[1];
 
-    match command.as_str() {
+    let result = match command.as_str() {
         "generate" => handle_generate_command(&args[2..]),
         "start" => handle_start_command(&args[2..]),
         "join" => handle_join_command(&args[2..]),
@@ -30,12 +30,20 @@ fn main() {
         "end" => handle_end_command(&args[2..]),
         "list" => handle_list_command(&args[2..]),
         "test" => handle_test_command(&args[2..]),
-        "help" | "--help" | "-h" => print_usage(),
+        "help" | "--help" | "-h" => {
+            print_usage();
+            Ok(())
+        },
         _ => {
             eprintln!("Unknown command: {}", command);
             print_usage();
             process::exit(1);
         }
+    };
+
+    if let Err(e) = result {
+        eprintln!("Error: {}", e);
+        process::exit(1);
     }
 }
 
