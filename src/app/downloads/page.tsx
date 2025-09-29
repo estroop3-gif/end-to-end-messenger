@@ -12,7 +12,18 @@ import {
 export default function Downloads() {
   const downloads = [
     {
-      platform: 'Windows',
+      platform: 'Windows Complete Suite',
+      version: '1.0.0',
+      size: '1.7 MB',
+      file: 'JESUS-IS-KING-Secure-Messaging-v1.0.0-Windows-Complete.tar.gz',
+      sha256: '0c3a2fcf86962ecbca4f0bca300b3e29b9b2a562ead6dc13c71cc5ba42d93dfc',
+      signature: 'JESUS-IS-KING-Secure-Messaging-v1.0.0-Windows-Complete.tar.gz.sig',
+      download_url: '/JESUS-IS-KING-Secure-Messaging-v1.0.0-Windows-Complete.tar.gz',
+      status: 'available',
+      instructions: 'Extract and run INSTALL.bat as Administrator. Includes complete GUI, Go server, hardware key authentication, and triple encryption.'
+    },
+    {
+      platform: 'Windows (Console)',
       version: '1.0.0',
       size: '862 KB',
       file: 'jesus-is-king-messenger-windows.exe',
@@ -70,6 +81,14 @@ mQINBGXXXXXXBEAC1234567890abcdef...
             Download the secure messaging platform and always verify signatures to ensure authenticity.
             Never skip verification - your security depends on it.
           </p>
+          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg max-w-2xl mx-auto">
+            <h3 className="text-lg font-semibold text-blue-800 mb-2">🎉 NEW: Windows Complete Suite Available!</h3>
+            <p className="text-sm text-blue-700">
+              The comprehensive Windows application is now ready with complete GUI, Go server for triple encryption,
+              hardware key authentication, and all security features you requested.
+              <strong>This is the full implementation with everything!</strong>
+            </p>
+          </div>
         </div>
 
         {/* Critical Warning */}
@@ -117,6 +136,24 @@ mQINBGXXXXXXBEAC1234567890abcdef...
                         <code className="text-xs bg-gray-100 px-2 py-1 rounded block">
                           {download.instructions}
                         </code>
+                      </div>
+                    )}
+                    {download.platform === 'Windows Complete Suite' && (
+                      <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded">
+                        <h4 className="text-sm font-semibold text-green-800 mb-2">🎯 Complete Security Suite Features:</h4>
+                        <ul className="text-xs text-green-700 space-y-1">
+                          <li>✅ Complete GUI with NordPass-inspired design</li>
+                          <li>✅ Go server for triple encryption architecture</li>
+                          <li>✅ Hardware key authentication (USB, Smart Card, YubiKey, Biometric)</li>
+                          <li>✅ Ed25519 digital signatures + ChaCha20-Poly1305 encryption</li>
+                          <li>✅ Dead-Man Switch security system</li>
+                          <li>✅ User-to-user handshake authentication</li>
+                          <li>✅ All cryptography tools and document creation</li>
+                          <li>✅ Professional Windows installer with full integration</li>
+                        </ul>
+                        <p className="text-xs text-green-600 mt-2 font-medium">
+                          Triple Encryption Flow: User → Go Server → Shuttle Website → Receiver's Go Server
+                        </p>
                       </div>
                     )}
                   </div>

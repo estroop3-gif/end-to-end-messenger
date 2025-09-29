@@ -1,7 +1,7 @@
 {
-  "productName": "Secure Messaging & Document Suite",
+  "productName": "JESUS IS KING - Secure Messaging",
   "version": "1.0.0",
-  "identifier": "com.securemessaging.suite",
+  "identifier": "com.jesusisking.securemessaging",
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
@@ -11,7 +11,7 @@
   "app": {
     "windows": [
       {
-        "title": "Secure Messaging & Document Suite",
+        "title": "JESUS IS KING - Secure Messaging",
         "width": 1200,
         "height": 800,
         "minWidth": 800,
@@ -44,11 +44,11 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["deb", "appimage"],
+    "targets": ["deb", "appimage", "msi", "nsis"],
     "category": "Utility",
     "copyright": "Copyright (c) 2024 Secure Messaging Team",
-    "shortDescription": "Secure messaging and document editing suite",
-    "longDescription": "Zero-persistence secure messaging and encrypted document editing with triple encryption and hardware token support",
+    "shortDescription": "JESUS IS KING - Secure End-to-End Encrypted Messaging",
+    "longDescription": "Secure messaging platform with Dead-Man Switch, Ed25519 signatures, ChaCha20-Poly1305 encryption, and comprehensive security features built to honor God",
     "linux": {
       "deb": {
         "depends": ["tor", "libsodium23", "libc6"]
