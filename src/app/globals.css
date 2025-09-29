@@ -1,193 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 @layer base {
-  * {
-    box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
   body {
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    background-color: #fefefe;
-    color: #1e293b;
+    background-color: #fafafa;
+    color: #1f2937;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
-    color: #0f172a;
+    color: #111827;
   }
 }
 
 @layer components {
-  /* Modern button styles - NordPass inspired */
+  /* Modern button styles */
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50;
   }
 
   .btn-primary {
-    @apply btn bg-accent-600 text-white hover:bg-accent-700 focus:ring-accent-500 shadow-soft hover:shadow-medium;
+    @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-lg hover:shadow-xl;
   }
 
   .btn-secondary {
-    @apply btn bg-primary-100 text-primary-700 hover:bg-primary-200 focus:ring-primary-500 border border-primary-200;
+    @apply bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-500 border border-gray-200;
   }
 
   .btn-outline {
-    @apply btn border-2 border-primary-300 text-primary-700 hover:bg-primary-50 hover:border-primary-400 focus:ring-primary-500;
+    @apply border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 focus:ring-gray-500;
   }
 
   .btn-ghost {
-    @apply btn text-primary-600 hover:bg-primary-50 focus:ring-primary-500;
+    @apply text-gray-600 hover:bg-gray-100 focus:ring-gray-500;
   }
 
   /* Card styles */
   .card {
-    @apply bg-white rounded-2xl shadow-soft border border-primary-100 p-6 hover:shadow-medium transition-all duration-200;
+    @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-200;
   }
 
   .card-elevated {
-    @apply card shadow-medium hover:shadow-large;
+    @apply bg-white rounded-2xl shadow-md border border-gray-100 p-6 hover:shadow-lg transition-all duration-200;
   }
 
-  /* Input styles */
-  .input {
-    @apply w-full px-4 py-3 text-sm border border-primary-200 rounded-xl focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 placeholder-primary-400;
+  /* Feature cards */
+  .feature-card {
+    @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-pointer;
   }
 
-  /* Modern hero section */
-  .hero-gradient {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  }
-
-  .hero-accent {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  }
-
-  /* Typography */
-  .text-hero {
-    @apply text-5xl md:text-6xl lg:text-7xl font-bold text-primary-900 leading-tight;
-  }
-
-  .text-lead {
-    @apply text-xl text-primary-600 leading-relaxed;
+  .feature-icon {
+    @apply w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all duration-200;
   }
 
   /* Navigation */
   .nav-link {
-    @apply relative px-4 py-2 text-sm font-medium text-primary-600 rounded-lg hover:bg-primary-50 hover:text-primary-900 transition-all duration-200;
+    @apply relative px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-all duration-200;
   }
 
   .nav-link.active {
-    @apply bg-accent-50 text-accent-700;
+    @apply bg-blue-50 text-blue-700;
   }
 
-  .nav-link.active::before {
-    content: '';
-    @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-accent-600 rounded-full;
-  }
-
-  /* Features grid */
-  .feature-card {
-    @apply card group cursor-pointer;
-  }
-
-  .feature-icon {
-    @apply w-12 h-12 bg-accent-100 text-accent-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-accent-600 group-hover:text-white transition-all duration-200;
-  }
-
-  /* Alert styles */
-  .alert {
-    @apply p-4 rounded-xl border-l-4;
-  }
-
-  .alert-info {
-    @apply alert bg-accent-50 border-accent-400 text-accent-800;
-  }
-
-  .alert-warning {
-    @apply alert bg-warning-50 border-warning-400 text-warning-800;
-  }
-
-  .alert-danger {
-    @apply alert bg-danger-50 border-danger-400 text-danger-800;
-  }
-
-  .alert-success {
-    @apply alert bg-success-50 border-success-400 text-success-800;
-  }
-
-  /* Scripture styling - subtle and elegant */
-  .scripture-verse {
-    @apply relative italic text-primary-700 bg-primary-50 border-l-4 border-accent-300 pl-6 py-4 my-6 rounded-r-xl;
-  }
-
-  .scripture-verse::before {
-    content: '"';
-    @apply absolute -top-2 -left-1 text-4xl text-accent-200 font-serif;
-  }
-
-  /* Modal styles */
+  /* Modal */
   .modal-overlay {
     @apply fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm z-50 flex items-center justify-center p-4;
   }
 
   .modal-content {
-    @apply bg-white rounded-3xl shadow-large max-w-md w-full p-8 animate-in fade-in-0 zoom-in-95 duration-200;
+    @apply bg-white rounded-3xl shadow-2xl max-w-md w-full p-8;
+    animation: modalSlideIn 0.2s ease-out;
   }
 
-  /* Loading and animations */
-  .loading-spinner {
-    @apply inline-block w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin;
+  /* Alerts */
+  .alert-warning {
+    @apply bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-xl;
   }
 
-  @keyframes animate-in {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+  .alert-danger {
+    @apply bg-red-50 border-l-4 border-red-400 p-4 rounded-r-xl;
   }
 
-  .animate-in {
-    animation: animate-in 0.2s ease-out;
+  .alert-info {
+    @apply bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-xl;
   }
 
-  /* Hover effects */
-  .hover-lift {
-    @apply transition-transform duration-200 hover:-translate-y-1;
+  /* Scripture styling */
+  .scripture-verse {
+    @apply relative italic text-gray-700 bg-gray-50 border-l-4 border-blue-300 pl-6 py-4 my-6 rounded-r-xl;
   }
 
-  .hover-scale {
-    @apply transition-transform duration-200 hover:scale-105;
+  .scripture-verse::before {
+    content: '"';
+    @apply absolute -top-2 -left-1 text-4xl text-blue-200 font-serif;
   }
 
-  /* Footer */
-  .footer-link {
-    @apply text-primary-500 hover:text-accent-600 transition-colors duration-200 text-sm;
-  }
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  /* Typography */
+  .text-hero {
+    @apply text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight;
   }
 
-  .bg-dot-pattern {
-    background-image: radial-gradient(circle, #e2e8f0 1px, transparent 1px);
-    background-size: 24px 24px;
+  .text-lead {
+    @apply text-xl text-gray-600 leading-relaxed;
   }
 
   .gradient-text {
@@ -195,5 +114,36 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Footer links */
+  .footer-link {
+    @apply text-gray-500 hover:text-blue-600 transition-colors duration-200 text-sm;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@layer utilities {
+  .bg-dot-pattern {
+    background-image: radial-gradient(circle, #e5e7eb 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-200 hover:-translate-y-1;
   }
 }

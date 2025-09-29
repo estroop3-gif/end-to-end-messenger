@@ -38,18 +38,18 @@ export default function Layout({
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Modern Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-primary-100">
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
               <Link href="/" className="flex items-center space-x-3 group">
-                <div className="w-10 h-10 bg-accent-600 rounded-xl flex items-center justify-center group-hover:bg-accent-700 transition-colors duration-200">
+                <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-700 transition-colors duration-200">
                   <Shield className="h-5 w-5 text-white" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-lg font-semibold text-primary-900">JESUS IS KING</span>
-                  <span className="text-xs text-primary-500 -mt-1">Secure Messaging</span>
+                  <span className="text-lg font-semibold text-gray-900">JESUS IS KING</span>
+                  <span className="text-xs text-gray-500 -mt-1">Secure Messaging</span>
                 </div>
               </Link>
             </div>
@@ -83,7 +83,7 @@ export default function Layout({
             <div className="lg:hidden">
               <button
                 type="button"
-                className="p-2 rounded-lg text-primary-500 hover:bg-primary-50 hover:text-primary-700 transition-colors duration-200"
+                className="p-2 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors duration-200"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
                 {mobileMenuOpen ? (
@@ -98,7 +98,7 @@ export default function Layout({
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-primary-100 bg-white">
+          <div className="lg:hidden border-t border-gray-100 bg-white">
             <div className="px-4 py-3 space-y-1">
               {navigation.map((item) => {
                 const Icon = item.icon
@@ -108,8 +108,8 @@ export default function Layout({
                     href={item.href}
                     className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
                       isActive(item.href)
-                        ? 'bg-accent-50 text-accent-700'
-                        : 'text-primary-600 hover:bg-primary-50 hover:text-primary-900'
+                        ? 'bg-blue-50 text-blue-700'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -118,10 +118,10 @@ export default function Layout({
                   </Link>
                 )
               })}
-              <div className="pt-2 mt-2 border-t border-primary-100">
+              <div className="pt-2 mt-2 border-t border-gray-100">
                 <Link
                   href="/downloads"
-                  className="flex items-center px-3 py-2 rounded-lg bg-accent-600 text-white font-medium"
+                  className="flex items-center px-3 py-2 rounded-lg bg-blue-600 text-white font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <Download className="h-4 w-4 mr-2" />
@@ -135,7 +135,7 @@ export default function Layout({
 
       {/* Prayer Banner */}
       {showPrayer && (
-        <div className="bg-gradient-to-r from-accent-600 to-accent-700 text-white py-3">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center">
             <Heart className="h-4 w-4 mr-2 flex-shrink-0" />
             <span className="text-sm font-medium text-center">
@@ -151,21 +151,21 @@ export default function Layout({
       </main>
 
       {/* Modern Footer */}
-      <footer className="bg-white border-t border-primary-100 mt-20">
+      <footer className="bg-white border-t border-gray-100 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Brand Section */}
             <div className="md:col-span-2">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-8 h-8 bg-accent-600 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                   <Shield className="h-4 w-4 text-white" />
                 </div>
                 <div>
-                  <div className="text-lg font-semibold text-primary-900">JESUS IS KING</div>
-                  <div className="text-sm text-primary-500">Secure Messaging Platform</div>
+                  <div className="text-lg font-semibold text-gray-900">JESUS IS KING</div>
+                  <div className="text-sm text-gray-500">Secure Messaging Platform</div>
                 </div>
               </div>
-              <p className="text-primary-600 text-sm leading-relaxed max-w-md mb-4">
+              <p className="text-gray-600 text-sm leading-relaxed max-w-md mb-4">
                 A secure messaging and document platform designed with Biblical principles.
                 All communications are protected by end-to-end encryption.
               </p>
@@ -176,7 +176,7 @@ export default function Layout({
 
             {/* Platform Links */}
             <div>
-              <h3 className="text-sm font-semibold text-primary-900 uppercase tracking-wider mb-4">
+              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
                 Platform
               </h3>
               <div className="space-y-3">
@@ -197,7 +197,7 @@ export default function Layout({
 
             {/* Legal & Faith */}
             <div>
-              <h3 className="text-sm font-semibold text-primary-900 uppercase tracking-wider mb-4">
+              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
                 Legal & Faith
               </h3>
               <div className="space-y-3">
@@ -221,9 +221,9 @@ export default function Layout({
             </div>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-primary-100">
+          <div className="mt-12 pt-8 border-t border-gray-100">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
-              <p className="text-sm text-primary-500">
+              <p className="text-sm text-gray-500">
                 © 2024 JESUS IS KING Platform. Built for educational purposes. Use responsibly.
               </p>
               <div className="alert-warning max-w-md">

@@ -79,17 +79,17 @@ export default function Home() {
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="text-center">
-              <div className="w-16 h-16 bg-accent-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Heart className="h-8 w-8 text-accent-600" />
+              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Heart className="h-8 w-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold text-primary-900 mb-3">
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
                 Welcome in the Name of Jesus
               </h3>
               <div className="scripture-verse mb-6">
                 &ldquo;Trust in the Lord with all your heart and lean not on your own understanding;
                 in all your ways submit to him, and he will make your paths straight.&rdquo; - Proverbs 3:5-6
               </div>
-              <p className="text-primary-600 text-sm mb-8 leading-relaxed">
+              <p className="text-gray-600 text-sm mb-8 leading-relaxed">
                 This platform is designed to protect your communications while honoring God.
                 Use it responsibly, lawfully, and with wisdom.
               </p>
@@ -114,7 +114,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-dot-pattern opacity-40"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-accent-100 text-accent-700 text-sm font-medium mb-8">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-8">
               <Star className="h-4 w-4 mr-2" />
               Trusted by faith communities worldwide
             </div>
@@ -122,7 +122,7 @@ export default function Home() {
             <h1 className="text-hero mb-8">
               <span className="gradient-text">JESUS IS KING</span>
               <br />
-              <span className="text-primary-700">Secure Messaging</span>
+              <span className="text-gray-700">Secure Messaging</span>
             </h1>
 
             <p className="text-lead max-w-3xl mx-auto mb-12">
@@ -142,7 +142,7 @@ export default function Home() {
             </div>
 
             {/* Trust indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-primary-500">
+            <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500">
               <div className="flex items-center">
                 <Shield className="h-4 w-4 mr-2" />
                 End-to-End Encrypted
@@ -185,10 +185,10 @@ export default function Home() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-900 mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               Secure Communication Guided by Faith
             </h2>
-            <p className="text-xl text-primary-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Built with Biblical wisdom and cutting-edge cryptography to protect what matters most
             </p>
           </div>
@@ -201,10 +201,10 @@ export default function Home() {
                   <div className="feature-icon">
                     <Icon className="h-6 w-6" />
                   </div>
-                  <h3 className="text-lg font-semibold text-primary-900 mb-3">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
                     {feature.title}
                   </h3>
-                  <p className="text-primary-600 leading-relaxed">
+                  <p className="text-gray-600 leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -219,10 +219,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-primary-900 mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                 Safety First - Protect Yourself
               </h2>
-              <p className="text-lg text-primary-600 mb-8 leading-relaxed">
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
                 True security requires both strong encryption and operational security.
                 Follow our comprehensive safety guide to protect yourself.
               </p>
@@ -230,10 +230,10 @@ export default function Home() {
               <div className="space-y-4 mb-8">
                 {benefits.map((benefit, index) => (
                   <div key={index} className="flex items-start">
-                    <div className="w-5 h-5 bg-success-100 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                      <CheckCircle className="h-3 w-3 text-success-600" />
+                    <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                      <CheckCircle className="h-3 w-3 text-green-600" />
                     </div>
-                    <span className="text-primary-700">{benefit}</span>
+                    <span className="text-gray-700">{benefit}</span>
                   </div>
                 ))}
               </div>
@@ -246,38 +246,38 @@ export default function Home() {
 
             <div className="card-elevated bg-gradient-to-br from-danger-50 to-warning-50 border-danger-200">
               <div className="text-center">
-                <div className="w-16 h-16 bg-danger-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <AlertTriangle className="h-8 w-8 text-danger-600" />
+                <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <AlertTriangle className="h-8 w-8 text-red-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-danger-800 mb-4">
+                <h3 className="text-xl font-semibold text-red-800 mb-4">
                   Hardware Safety Warning
                 </h3>
-                <p className="text-danger-700 mb-6 leading-relaxed">
+                <p className="text-red-700 mb-6 leading-relaxed">
                   <strong>We strongly advise against destructive hardware modifications.</strong>
                   Instead, use devices with built-in hardware switches or external peripherals.
                 </p>
-                <div className="bg-danger-100 rounded-xl p-4 text-left mb-6">
-                  <h4 className="font-semibold text-danger-800 mb-3">Safe Alternatives:</h4>
-                  <ul className="text-sm text-danger-700 space-y-2">
+                <div className="bg-red-100 rounded-xl p-4 text-left mb-6">
+                  <h4 className="font-semibold text-red-800 mb-3">Safe Alternatives:</h4>
+                  <ul className="text-sm text-red-700 space-y-2">
                     <li className="flex items-center">
-                      <div className="w-1.5 h-1.5 bg-danger-400 rounded-full mr-2"></div>
+                      <div className="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></div>
                       Devices with hardware kill switches (Purism Librem)
                     </li>
                     <li className="flex items-center">
-                      <div className="w-1.5 h-1.5 bg-danger-400 rounded-full mr-2"></div>
+                      <div className="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></div>
                       External webcam/microphone (disconnect when not needed)
                     </li>
                     <li className="flex items-center">
-                      <div className="w-1.5 h-1.5 bg-danger-400 rounded-full mr-2"></div>
+                      <div className="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></div>
                       Faraday bags for radio isolation
                     </li>
                     <li className="flex items-center">
-                      <div className="w-1.5 h-1.5 bg-danger-400 rounded-full mr-2"></div>
+                      <div className="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></div>
                       Live USB/Tails OS for non-persistent usage
                     </li>
                   </ul>
                 </div>
-                <Link href="/safety" className="btn btn-secondary bg-danger-600 text-white hover:bg-danger-700 border-0">
+                <Link href="/safety" className="btn btn-secondary bg-red-600 text-white hover:bg-red-700 border-0">
                   Read Full Safety Guide
                 </Link>
               </div>
@@ -289,17 +289,17 @@ export default function Home() {
       {/* Scripture & Faith Section */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="w-16 h-16 bg-accent-100 rounded-2xl flex items-center justify-center mx-auto mb-8">
-            <Book className="h-8 w-8 text-accent-600" />
+          <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-8">
+            <Book className="h-8 w-8 text-blue-600" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-900 mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
             Founded on Scripture
           </h2>
           <div className="scripture-verse max-w-4xl mx-auto mb-8">
             &ldquo;He who dwells in the secret place of the Most High shall abide under the shadow of the Almighty.
             I will say of the Lord, &lsquo;He is my refuge and my fortress; my God, in Him I will trust.&rsquo;&rdquo; - Psalm 91:1-2
           </div>
-          <p className="text-lg text-primary-600 max-w-3xl mx-auto mb-12 leading-relaxed">
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12 leading-relaxed">
             This platform is built with Biblical principles at its core. Access Scripture in original languages,
             submit prayers, and follow our faith-based code of conduct.
           </p>
@@ -326,16 +326,16 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Ready to Secure Your Communications?
           </h2>
-          <p className="text-xl text-accent-100 mb-12 leading-relaxed">
+          <p className="text-xl text-blue-100 mb-12 leading-relaxed">
             Join thousands who trust JESUS IS KING for their secure messaging needs.
             Download now and experience true privacy.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/downloads" className="btn bg-white text-accent-600 hover:bg-accent-50">
+            <Link href="/downloads" className="btn bg-white text-blue-600 hover:bg-blue-50">
               <Download className="h-5 w-5 mr-2" />
               Download for Free
             </Link>
-            <Link href="/safety" className="btn border-2 border-white text-white hover:bg-white hover:text-accent-600">
+            <Link href="/safety" className="btn border-2 border-white text-white hover:bg-white hover:text-blue-600">
               <Globe className="h-5 w-5 mr-2" />
               View Documentation
             </Link>
