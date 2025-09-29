@@ -91,13 +91,13 @@ if ($InstallGoServer) {
 Copy-Item -Path "crypto\*" -Destination $CryptoDir -Recurse -Force
 
 # Create main executable wrapper
-$MainExecutable = @"
+$MainExecutable = @'
 @echo off
-title $APP_NAME
-cd /d "$InstallPath"
+title JESUS IS KING - Secure Messaging
+cd /d "{0}"
 
 echo ===============================================
-echo   $APP_NAME v$APP_VERSION
+echo   JESUS IS KING - Secure Messaging v1.0.0
 echo   Initializing Secure Messaging Suite...
 echo ===============================================
 echo.
@@ -107,7 +107,7 @@ if exist "server\main.exe" (
     echo Starting Triple Encryption Server...
     start /B "JESUS-IS-KING-Server" server\main.exe
     timeout /t 2 /nobreak >nul
-    echo Server started on port $GO_SERVER_PORT
+    echo Server started on port 8080
     echo.
 )
 
@@ -122,19 +122,19 @@ echo.
 
 REM Start GUI application
 echo Launching Secure Messaging Interface...
-echo Triple Encryption: User → Go Server → Shuttle → Receiver
+echo Triple Encryption: User -^> Go Server -^> Shuttle -^> Receiver
 echo Authentication: Ed25519 Digital Signatures
 echo Encryption: ChaCha20-Poly1305 with Dead-Man Switch
 echo.
 
 REM Launch web GUI
 if exist "gui\index.html" (
-    start "" "http://localhost:$GUI_PORT"
+    start "" "http://localhost:1420"
 
     REM Start simple HTTP server for GUI
     cd gui
     if exist "C:\Program Files\nodejs\node.exe" (
-        "C:\Program Files\nodejs\node.exe" -e "const http=require('http'),fs=require('fs'),path=require('path');http.createServer((req,res)=>{let file=req.url==='/'?'index.html':req.url.slice(1);let ext=path.extname(file);let contentType='text/html';if(ext==='.js')contentType='text/javascript';if(ext==='.css')contentType='text/css';if(ext==='.json')contentType='application/json';if(ext==='.png')contentType='image/png';if(ext==='.jpg')contentType='image/jpg';fs.readFile(file,(err,data)=>{if(err){res.writeHead(404);res.end('Not found');}else{res.writeHead(200,{'Content-Type':contentType});res.end(data);}});}).listen($GUI_PORT,()=>console.log('GUI server running on port $GUI_PORT'));"
+        "C:\Program Files\nodejs\node.exe" -e "const http=require('http'),fs=require('fs'),path=require('path');http.createServer((req,res)=>{{let file=req.url==='/'?'index.html':req.url.slice(1);let ext=path.extname(file);let contentType='text/html';if(ext==='.js')contentType='text/javascript';if(ext==='.css')contentType='text/css';if(ext==='.json')contentType='application/json';if(ext==='.png')contentType='image/png';if(ext==='.jpg')contentType='image/jpg';fs.readFile(file,(err,data)=>{{if(err){{res.writeHead(404);res.end('Not found');}}else{{res.writeHead(200,{{'Content-Type':contentType}});res.end(data);}}}});}}}).listen(1420,()=>console.log('GUI server running on port 1420'));"
     ) else (
         echo Warning: Node.js not found. GUI may not function properly.
         echo Please install Node.js from https://nodejs.org/
@@ -144,18 +144,18 @@ if exist "gui\index.html" (
     echo Error: GUI files not found!
     pause
 )
-"@
+'@
 
-$MainExecutable | Out-File -FilePath (Join-Path $BinDir "JESUS-IS-KING-Messenger.bat") -Encoding ASCII
+($MainExecutable -f $InstallPath) | Out-File -FilePath (Join-Path $BinDir "JESUS-IS-KING-Messenger.bat") -Encoding ASCII
 
 # Create hardware key setup script
-$KeySetupScript = @"
+$KeySetupScript = @'
 @echo off
-title $APP_NAME - Hardware Key Setup
-cd /d "$CryptoDir"
+title JESUS IS KING - Secure Messaging - Hardware Key Setup
+cd /d "{0}"
 
 echo ===============================================
-echo   $APP_NAME - Hardware Key Setup
+echo   JESUS IS KING - Secure Messaging - Hardware Key Setup
 echo   Configuring Authentication Keys
 echo ===============================================
 echo.
@@ -193,9 +193,9 @@ echo Hardware key setup completed!
 echo Key files saved to: %USERPROFILE%\.secure-messaging\keys\
 echo.
 pause
-"@
+'@
 
-$KeySetupScript | Out-File -FilePath (Join-Path $BinDir "Setup-HardwareKeys.bat") -Encoding ASCII
+($KeySetupScript -f $CryptoDir) | Out-File -FilePath (Join-Path $BinDir "Setup-HardwareKeys.bat") -Encoding ASCII
 
 # Create Go server configuration
 if ($InstallGoServer) {
@@ -360,7 +360,7 @@ Write-Host "  2. Launch '$APP_NAME' from Desktop or Start Menu" -ForegroundColor
 Write-Host "  3. Complete user-to-user handshake authentication" -ForegroundColor Yellow
 Write-Host ""
 Write-Host "Triple Encryption Flow:" -ForegroundColor Cyan
-Write-Host "  User → Go Server → Shuttle Website → Receiver's Go Server" -ForegroundColor White
+Write-Host "  User -> Go Server -> Shuttle Website -> Receiver's Go Server" -ForegroundColor White
 Write-Host ""
 
 if (-not $Silent) {

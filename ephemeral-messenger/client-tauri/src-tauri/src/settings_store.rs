@@ -207,7 +207,7 @@ impl SettingsStore {
                 ARGON2_TIME_COST,
                 ARGON2_PARALLELISM,
                 Some(WRAP_KEY_SIZE),
-            ).context("Failed to create Argon2 parameters")?,
+            ).map_err(|e| anyhow::anyhow!("Failed to create Argon2 parameters: {:?}", e))?,
         );
 
         argon2.hash_password_into(
@@ -266,7 +266,7 @@ impl SettingsStore {
 
         // Verify passphrase against PHC hash
         let parsed_hash = PasswordHash::new(&credential.phc)
-            .context("Failed to parse stored password hash")?;
+            .map_err(|e| anyhow::anyhow!("Failed to parse stored password hash: {:?}", e))?;
 
         let argon2 = Argon2::default();
         let verification_result = argon2.verify_password(passphrase.as_bytes(), &parsed_hash);
@@ -303,14 +303,14 @@ impl SettingsStore {
                 ARGON2_TIME_COST,
                 ARGON2_PARALLELISM,
                 Some(WRAP_KEY_SIZE),
-            ).context("Failed to create Argon2 parameters")?,
+            ).map_err(|e| anyhow::anyhow!("Failed to create Argon2 parameters: {:?}", e))?,
         );
 
         argon2.hash_password_into(passphrase.as_bytes(), &salt_bytes, &mut wrap_key)
-            .context("Failed to derive wrap key")?;
+            .map_err(|e| anyhow::anyhow!("Failed to derive wrap key: {:?}", e))?;
 
         // Decrypt master key to verify integrity
-        let cipher = ChaCha20Poly1305::from(Key::from_slice(&wrap_key));
+        let cipher = ChaCha20Poly1305::new(Key::from_slice(&wrap_key));
         let nonce = Nonce::from_slice(&nonce_bytes);
 
         let decrypt_result = cipher.decrypt(nonce, wrapped_master.as_ref());
