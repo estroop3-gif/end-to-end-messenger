@@ -89,7 +89,7 @@ export default function Home() {
                 >
                   Continue with Prayer
                 </button>
-                <Link href="/prayer" className="border-2 border-primary-600 text-primary-600 px-4 py-2 rounded-lg font-medium hover:bg-primary-600 hover:text-white transition-all duration-200"
+                <Link href="/prayer" className="border-2 border-primary-600 text-primary-600 px-4 py-2 rounded-lg font-medium hover:bg-primary-600 hover:text-white transition-all duration-200">
                   Submit Prayer
                 </Link>
               </div>
@@ -195,7 +195,7 @@ export default function Home() {
               </div>
 
               <div className="mt-8">
-                <Link href="/safety" className="bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200 inline-flex items-center"
+                <Link href="/safety" className="bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200 inline-flex items-center">
                   Complete Safety Guide
                   <ChevronRight className="h-4 w-4 ml-2" />
                 </Link>
