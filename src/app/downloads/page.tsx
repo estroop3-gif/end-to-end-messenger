@@ -14,13 +14,13 @@ export default function Downloads() {
     {
       platform: 'Windows',
       version: '1.0.0',
-      size: '852 KB',
+      size: '862 KB',
       file: 'jesus-is-king-messenger-windows.exe',
-      sha256: '63bbda06088617ccac4f33b97bec754bddc126f340948c937d528716e9cf89cb',
+      sha256: '7f42c1d9f10b0589a5946485e4d219acc7e5813e7f8ebf06cfc7a5c3a930c9ee',
       signature: 'jesus-is-king-messenger-windows.exe.sig',
       download_url: '/downloads/jesus-is-king-messenger-windows.exe',
       status: 'available',
-      instructions: 'Download and run the .exe file directly. Run with commands: verse, keygen, chat, security'
+      instructions: 'Double-click to run, or use command line with: verse, keygen, chat, security'
     },
     {
       platform: 'Linux',

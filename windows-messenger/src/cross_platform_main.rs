@@ -117,16 +117,90 @@ impl CrossPlatformCrypto {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let cli = Cli::parse();
+    // Check if any arguments were provided
+    let args: Vec<String> = std::env::args().collect();
 
-    match cli.command {
-        Commands::Verse => show_verse().await?,
-        Commands::Keygen => generate_keys().await?,
-        Commands::Chat => start_chat().await?,
-        Commands::Security => run_security().await?,
+    if args.len() == 1 {
+        // No arguments provided (double-clicked), show interactive menu
+        show_interactive_menu().await?;
+    } else {
+        // Arguments provided (command line), use clap parsing
+        let cli = Cli::parse();
+        match cli.command {
+            Commands::Verse => show_verse().await?,
+            Commands::Keygen => generate_keys().await?,
+            Commands::Chat => start_chat().await?,
+            Commands::Security => run_security().await?,
+        }
     }
 
     println!("\n✝️ May God bless your secure communications.");
+
+    // On Windows, if double-clicked, wait for user input before closing
+    if args.len() == 1 && cfg!(windows) {
+        println!("\nPress Enter to exit...");
+        let mut input = String::new();
+        std::io::stdin().read_line(&mut input)?;
+    }
+
+    Ok(())
+}
+
+async fn show_interactive_menu() -> Result<()> {
+    let mut stdout = io::stdout();
+    execute!(stdout, Clear(ClearType::All), MoveTo(0, 0))?;
+
+    queue!(stdout, SetForegroundColor(Color::Cyan))?;
+    println!("╔══════════════════════════════════════════════════════════════════╗");
+    println!("║                         JESUS IS KING                           ║");
+    println!("║                      Windows Native Edition                     ║");
+    println!("╠══════════════════════════════════════════════════════════════════╣");
+    println!("║                     Interactive Menu                            ║");
+    println!("╚══════════════════════════════════════════════════════════════════╝");
+    queue!(stdout, ResetColor)?;
+
+    println!("\nWelcome to JESUS IS KING Secure Messaging Platform!");
+    println!("Choose an option:");
+    println!("  1. Show Scripture Verse");
+    println!("  2. Generate Encryption Keys");
+    println!("  3. Start Secure Chat");
+    println!("  4. Run Security Diagnostics");
+    println!("  5. Exit");
+
+    loop {
+        print!("\nEnter your choice (1-5): ");
+        stdout.flush()?;
+
+        let mut input = String::new();
+        std::io::stdin().read_line(&mut input)?;
+
+        match input.trim() {
+            "1" => {
+                show_verse().await?;
+                break;
+            },
+            "2" => {
+                generate_keys().await?;
+                break;
+            },
+            "3" => {
+                start_chat().await?;
+                break;
+            },
+            "4" => {
+                run_security().await?;
+                break;
+            },
+            "5" => {
+                println!("Goodbye!");
+                break;
+            },
+            _ => {
+                println!("Invalid choice. Please enter 1-5.");
+            }
+        }
+    }
+
     Ok(())
 }
 
