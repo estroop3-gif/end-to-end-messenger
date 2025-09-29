@@ -44,7 +44,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["deb", "appimage", "rpm"],
+    "targets": ["deb", "appimage"],
     "category": "Utility",
     "copyright": "Copyright (c) 2024 Secure Messaging Team",
     "shortDescription": "Secure messaging and document editing suite",

@@ -1,4 +1,4 @@
-// Simplified main.rs for compilation (stub implementation)
+// JESUS IS KING - Secure Messaging Application
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::State;

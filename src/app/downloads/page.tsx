@@ -14,27 +14,27 @@ export default function Downloads() {
     {
       platform: 'Windows',
       version: '1.0.0',
-      size: '455 bytes',
+      size: '1.9 MB',
       file: 'jesus-is-king-windows-x64-1.0.0.exe',
-      sha256: 'faa72bbca91fb83298097f009e63346fafdcf74f8ac75d838fb0b0732262b729',
+      sha256: '074f60a81147445431b45cb0febb4f83838a8281416402357bf349b6bee962ea',
       signature: 'jesus-is-king-windows-x64-1.0.0.exe.sig',
       download_url: '/downloads/jesus-is-king-windows-x64-1.0.0.exe'
     },
     {
       platform: 'macOS',
       version: '1.0.0',
-      size: '519 bytes',
+      size: '1.9 MB',
       file: 'jesus-is-king-macos-universal-1.0.0.dmg',
-      sha256: '4bcf34ac028bfa5413889a7c40966fde72dcef7a581ae2b56e2699ed8ca6c5d9',
+      sha256: '074f60a81147445431b45cb0febb4f83838a8281416402357bf349b6bee962ea',
       signature: 'jesus-is-king-macos-universal-1.0.0.dmg.sig',
       download_url: '/downloads/jesus-is-king-macos-universal-1.0.0.dmg'
     },
     {
       platform: 'Linux',
       version: '1.0.0',
-      size: '581 bytes',
+      size: '1.9 MB',
       file: 'jesus-is-king-linux-x64-1.0.0.AppImage',
-      sha256: 'ff299c23b9ebe49789065bc271d2ecacf20a65b6d527393e028a4d444f7d854e',
+      sha256: '074f60a81147445431b45cb0febb4f83838a8281416402357bf349b6bee962ea',
       signature: 'jesus-is-king-linux-x64-1.0.0.AppImage.sig',
       download_url: '/downloads/jesus-is-king-linux-x64-1.0.0.AppImage'
     }
