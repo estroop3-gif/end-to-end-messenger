@@ -12,6 +12,17 @@ import {
 export default function Downloads() {
   const downloads = [
     {
+      platform: 'Windows',
+      version: '1.0.0',
+      size: '2.1 MB',
+      file: 'jesus-is-king-messenger-windows.exe',
+      sha256: '2e1da2d5a0d59b8ee8dc77b2ad35269b2fe999a2ceb2871735bc5ce42408d4c6',
+      signature: 'jesus-is-king-messenger-windows.exe.sig',
+      download_url: '/downloads/jesus-is-king-messenger-windows.exe',
+      status: 'available',
+      instructions: 'Download and run the .exe file directly. Run with commands: verse, keygen, chat, security'
+    },
+    {
       platform: 'Linux',
       version: '1.0.0',
       size: '1.9 MB',
@@ -25,13 +36,6 @@ export default function Downloads() {
   ]
 
   const upcomingDownloads = [
-    {
-      platform: 'Windows',
-      version: '1.0.0',
-      status: 'coming_soon',
-      reason: 'Windows cross-compilation requires additional toolchain setup',
-      eta: 'Available soon - Windows users can use WSL with Linux version'
-    },
     {
       platform: 'macOS',
       version: '1.0.0',
@@ -199,9 +203,9 @@ mQINBGXXXXXXBEAC1234567890abcdef...
           </div>
 
           <div className="alert-info mt-6">
-            <h4 className="font-semibold mb-4">🔧 Complete Step-by-Step Guide for Windows Users</h4>
+            <h4 className="font-semibold mb-4">🔧 Alternative Installation Guide for Windows Users</h4>
             <p className="mb-6">
-              While we work on native Windows builds, you can run the Linux version using Windows Subsystem for Linux (WSL).
+              <strong>Native Windows version is now available above!</strong> However, you can also run the Linux version using Windows Subsystem for Linux (WSL) if preferred.
               This provides the <strong>exact same functionality</strong> as the native Linux version with full encryption support.
             </p>
 
@@ -455,8 +459,10 @@ mQINBGXXXXXXBEAC1234567890abcdef...
                   Verify the downloaded file using its GPG signature.
                 </p>
                 <div className="bg-gray-900 text-gray-100 p-4 rounded-lg text-sm font-mono mb-4">
-                  <div className="mb-2"># Verify the signature</div>
-                  <div className="mb-2">gpg --verify jesus-is-king-windows-x64-1.0.0.exe.sig jesus-is-king-windows-x64-1.0.0.exe</div>
+                  <div className="mb-2"># Verify the signature (Windows)</div>
+                  <div className="mb-2">gpg --verify jesus-is-king-messenger-windows.exe.sig jesus-is-king-messenger-windows.exe</div>
+                  <div className="mb-2"># Or for Linux:</div>
+                  <div className="mb-2">gpg --verify jesus-is-king-linux-x64-1.0.0.AppImage.sig jesus-is-king-linux-x64-1.0.0.AppImage</div>
                   <div className="mb-2"># Expected output should include:</div>
                   <div>gpg: Good signature from "JESUS IS KING &lt;releases@jesusisking.app&gt;"</div>
                 </div>
@@ -479,10 +485,12 @@ mQINBGXXXXXXBEAC1234567890abcdef...
                   Double-check by verifying the SHA256 checksum matches exactly.
                 </p>
                 <div className="bg-gray-900 text-gray-100 p-4 rounded-lg text-sm font-mono mb-4">
-                  <div className="mb-2"># Generate checksum</div>
-                  <div className="mb-2">sha256sum jesus-is-king-windows-x64-1.0.0.exe</div>
-                  <div className="mb-2"># Or on macOS:</div>
-                  <div className="mb-2">shasum -a 256 jesus-is-king-windows-x64-1.0.0.exe</div>
+                  <div className="mb-2"># Generate checksum (Windows)</div>
+                  <div className="mb-2">sha256sum jesus-is-king-messenger-windows.exe</div>
+                  <div className="mb-2"># Or for Linux:</div>
+                  <div className="mb-2">sha256sum jesus-is-king-linux-x64-1.0.0.AppImage</div>
+                  <div className="mb-2"># On macOS:</div>
+                  <div className="mb-2">shasum -a 256 [filename]</div>
                   <div className="mb-2"># Compare with official checksum above</div>
                 </div>
                 <div className="alert-warning">
