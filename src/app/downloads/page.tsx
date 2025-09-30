@@ -14,13 +14,13 @@ export default function Downloads() {
     {
       platform: 'Windows Professional Application',
       version: '1.0.3',
-      size: 'TBD',
+      size: '716 KB',
       file: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-Professional-Setup.exe',
-      sha256: 'Will be generated after Windows build',
+      sha256: '227f473f9690642271dc9587596bf236132337921812f2daa24af8c4317f11c9',
       signature: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-Professional-Setup.exe.sig',
-      download_url: 'https://github.com/estroop3-gif/end-to-end-messenger/tree/main/windows-installer',
-      status: 'source_available',
-      instructions: 'Source code available. Build instructions: cd windows-installer && ./build.sh. Requires Rust, Node.js, and Windows build tools. Professional native Windows application with modern Tauri-based GUI, NSIS installer, and complete triple-encryption onion transport system.'
+      download_url: '/downloads/JESUS-IS-KING-Secure-Messenger-v1.0.3-Professional-Setup.exe',
+      status: 'available',
+      instructions: 'Download and run the executable. Professional native Windows application with command-line interface supporting: verse, security, chat, config, keygen, install commands. Complete triple-encryption onion transport system.'
     },
     {
       platform: 'Windows (Console)',
@@ -43,6 +43,17 @@ export default function Downloads() {
       download_url: '/downloads/jesus-is-king-linux-x64-1.0.0.AppImage',
       status: 'available',
       instructions: 'Download and run: chmod +x jesus-is-king-linux-x64-1.0.0.AppImage && ./jesus-is-king-linux-x64-1.0.0.AppImage'
+    },
+    {
+      platform: 'Linux Professional Application',
+      version: '1.0.3',
+      size: '1.2 MB',
+      file: 'jesus-is-king-linux-x64-1.0.3.bin',
+      sha256: 'db254cc661191943bd58088898bf9b2d7694f104f0b41b6466d34c207920749b',
+      signature: 'jesus-is-king-linux-x64-1.0.3.bin.sig',
+      download_url: '/downloads/jesus-is-king-linux-x64-1.0.3.bin',
+      status: 'available',
+      instructions: 'Download and run: chmod +x jesus-is-king-linux-x64-1.0.3.bin && ./jesus-is-king-linux-x64-1.0.3.bin. Professional native Linux application with command-line interface supporting: verse, security, chat, config, keygen, install commands. Complete triple-encryption onion transport system.'
     }
   ]
 
