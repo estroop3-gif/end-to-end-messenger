@@ -12,15 +12,26 @@ import {
 export default function Downloads() {
   const downloads = [
     {
-      platform: 'Windows Professional Application',
+      platform: 'Windows GUI Installer',
+      version: '1.0.3',
+      size: '190 KB',
+      file: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-GUI-Installer.exe',
+      sha256: '03c62e9afda6aacc8074ce644d3470d26a942be106f4b3942b18b0786a121348',
+      signature: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-GUI-Installer.exe.sig',
+      download_url: '/downloads/JESUS-IS-KING-Secure-Messenger-v1.0.3-GUI-Installer.exe',
+      status: 'available',
+      instructions: 'Double-click to run Windows GUI installer. Shows installation progress with message boxes. Installs application components and creates configuration files. Perfect for users who prefer graphical installers.'
+    },
+    {
+      platform: 'Windows Console Application',
       version: '1.0.3',
       size: '716 KB',
-      file: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-Professional-Setup.exe',
-      sha256: '227f473f9690642271dc9587596bf236132337921812f2daa24af8c4317f11c9',
-      signature: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-Professional-Setup.exe.sig',
-      download_url: '/downloads/JESUS-IS-KING-Secure-Messenger-v1.0.3-Professional-Setup.exe',
+      file: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-Console.exe',
+      sha256: 'a63e31d190964b60474c3eec822073d288dd267b8d39119d90d8b202babdf713',
+      signature: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-Console.exe.sig',
+      download_url: '/downloads/JESUS-IS-KING-Secure-Messenger-v1.0.3-Console.exe',
       status: 'available',
-      instructions: 'Download and run the executable. Professional native Windows application with command-line interface supporting: verse, security, chat, config, keygen, install commands. Complete triple-encryption onion transport system.'
+      instructions: 'Run from Command Prompt or PowerShell. Professional native Windows application with full command-line interface supporting: verse, security, chat, config, keygen, install commands. Complete triple-encryption onion transport system.'
     },
     {
       platform: 'Windows (Console)',
