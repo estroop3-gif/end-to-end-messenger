@@ -1,0 +1,103 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom styles for the JESUS IS KING Messenger */
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent text selection for a more native app feel */
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Smooth animations */
+* {
+  transition: all 0.2s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Button hover effects */
+button:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+button:not(:disabled):active {
+  transform: translateY(0);
+}
+
+/* Loading animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Security status indicators */
+.security-active {
+  @apply bg-green-50 border-green-200 text-green-800;
+}
+
+.security-inactive {
+  @apply bg-amber-50 border-amber-200 text-amber-800;
+}
+
+/* Tab styling */
+.tab-active {
+  @apply bg-blue-600 text-white shadow-lg;
+}
+
+.tab-inactive {
+  @apply bg-white text-gray-700 border hover:bg-gray-50;
+}
+
+/* Card components */
+.card {
+  @apply bg-white rounded-xl shadow-sm border p-6;
+}
+
+.card-hover {
+  @apply hover:shadow-md transition-shadow;
+}
+
+/* Scripture verse styling */
+.scripture-verse {
+  @apply text-center italic text-blue-800 font-medium;
+  font-family: Georgia, serif;
+}

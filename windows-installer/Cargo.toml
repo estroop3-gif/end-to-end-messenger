@@ -1,0 +1,27 @@
+[package]
+name = "jesus-is-king-messenger"
+version = "1.0.3"
+description = "JESUS IS KING - Professional Secure Messaging Application"
+authors = ["JESUS IS KING Development Team"]
+license = "MIT"
+repository = "https://github.com/estroop3-gif/end-to-end-messenger"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "1.5", features = [] }
+
+[dependencies]
+tauri = { version = "1.6", features = ["api-all"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+dirs = "5.0"
+open = "5.0"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
+
+[[bin]]
+name = "jesus-is-king-messenger"
+path = "src/main.rs"

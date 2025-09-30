@@ -1,0 +1,124 @@
+{
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devPath": "http://localhost:1420",
+    "distDir": "../dist",
+    "withGlobalTauri": false
+  },
+  "package": {
+    "productName": "JESUS IS KING - Secure Messenger",
+    "version": "1.0.3"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": true,
+      "fs": {
+        "all": true,
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "copyFile": true,
+        "createDir": true,
+        "removeDir": true,
+        "removeFile": true,
+        "renameFile": true
+      },
+      "shell": {
+        "all": true,
+        "open": true
+      },
+      "dialog": {
+        "all": true,
+        "open": true,
+        "save": true,
+        "message": true,
+        "ask": true,
+        "confirm": true
+      },
+      "notification": {
+        "all": true
+      },
+      "os": {
+        "all": true
+      },
+      "path": {
+        "all": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "targets": ["msi", "nsis"],
+      "identifier": "com.jesusisking.secure-messenger",
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "resources": [],
+      "externalBin": [],
+      "copyright": "Copyright (c) 2024 JESUS IS KING Development Team",
+      "category": "Communication",
+      "shortDescription": "Professional secure messaging with triple-encryption",
+      "longDescription": "JESUS IS KING Secure Messenger provides enterprise-grade security with triple-encryption onion transport, certificate pinning, digital signatures, and hardware key authentication. Built with faith, secured with cryptography.",
+      "deb": {
+        "depends": []
+      },
+      "macOS": {
+        "frameworks": [],
+        "minimumSystemVersion": "",
+        "exceptionDomain": "",
+        "signingIdentity": null,
+        "providerShortName": null,
+        "entitlements": null
+      },
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": "",
+        "tsp": false,
+        "wix": {
+          "language": "en-US",
+          "template": "main.wxs",
+          "fragmentPaths": [],
+          "componentGroupRefs": [],
+          "componentRefs": [],
+          "featureGroupRefs": [],
+          "featureRefs": [],
+          "mergeRefs": []
+        },
+        "nsis": {
+          "displayLanguageSelector": true,
+          "installerIcon": "icons/icon.ico",
+          "installMode": "currentUser",
+          "languages": ["English"],
+          "template": "installer.nsi"
+        }
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "JESUS IS KING - Secure Messenger",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 800,
+        "minHeight": 600,
+        "center": true,
+        "decorations": true,
+        "alwaysOnTop": false,
+        "skipTaskbar": false,
+        "theme": "Light"
+      }
+    ]
+  }
+}
