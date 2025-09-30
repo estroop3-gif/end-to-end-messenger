@@ -13,14 +13,14 @@ export default function Downloads() {
   const downloads = [
     {
       platform: 'Windows Complete Suite',
-      version: '1.0.2',
-      size: '1.7 MB',
-      file: 'JESUS-IS-KING-Secure-Messaging-v1.0.2-Windows-Complete-FINAL.tar.gz',
-      sha256: '57b880f4663dfc743937600c4d566e264de7cacf38ec3d4f8bda903d48c37177',
-      signature: 'JESUS-IS-KING-Secure-Messaging-v1.0.2-Windows-Complete-FINAL.tar.gz.sig',
-      download_url: '/JESUS-IS-KING-Secure-Messaging-v1.0.2-Windows-Complete-FINAL.tar.gz',
+      version: '1.0.3',
+      size: '9.4 KB',
+      file: 'JESUS-IS-KING-Secure-Messaging-v1.0.3-Windows-Complete.tar.gz',
+      sha256: '147b94aaf62ccd9dda40ee056285f9423f03fdec19575f41e8cd75256e820e34',
+      signature: 'JESUS-IS-KING-Secure-Messaging-v1.0.3-Windows-Complete.tar.gz.sig',
+      download_url: '/JESUS-IS-KING-Secure-Messaging-v1.0.3-Windows-Complete.tar.gz',
       status: 'available',
-      instructions: 'Extract and run INSTALL.bat as Administrator. FINAL version with all PowerShell syntax issues fixed. Includes complete GUI, Go server, hardware key authentication, and triple encryption.'
+      instructions: 'Extract and run INSTALL.bat as Administrator. Latest version with enhanced security documentation, triple-encryption onion transport, shuttle service, and comprehensive Windows installer with full integration.'
     },
     {
       platform: 'Windows (Console)',
