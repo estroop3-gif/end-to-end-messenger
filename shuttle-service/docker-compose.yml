@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  shuttle-service:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      - LOG_LEVEL=info
+    volumes:
+      - ./config.json:/app/config.json:ro
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - shuttle-network
+
+  redis:
+    image: redis:7.2-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: unless-stopped
+    networks:
+      - shuttle-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  shuttle-network:
+    driver: bridge

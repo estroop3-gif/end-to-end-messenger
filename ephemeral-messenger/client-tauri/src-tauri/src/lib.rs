@@ -12,6 +12,7 @@ pub mod tor_integration;
 // pub mod settings_store;  // Temporarily disabled due to compilation errors
 pub mod signal_placeholder;
 // pub mod login_commands;  // Temporarily disabled due to compilation errors
+pub mod transport;
 
 // Re-export main types for external usage
 pub use crypto_stub::{CryptoManager, Identity, EncryptedMessage, MessageMetadata};
@@ -21,6 +22,7 @@ pub use tor_integration::{TorManager, OnionService, TorStatus};
 pub use stubs::document::{DocumentEditor, DocumentMetadata};
 pub use stubs::{SessionManager, CipherAlgorithm, CipherCode, CipherPayload, SessionInfo};
 pub use signal_placeholder::{SignalSession, SignalStore, PreKey};
+pub use transport::{TransportManager, TransportConfig, OnionFrame, OnionSession};
 
 // Version information
 pub const VERSION: &str = "1.0.0";

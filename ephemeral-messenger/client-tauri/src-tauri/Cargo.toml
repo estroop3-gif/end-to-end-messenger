@@ -36,11 +36,18 @@ thiserror = "1.0"
 
 # Core cryptography for session ciphers
 chacha20poly1305 = "0.10"
+aes-gcm = "0.10"
+hkdf = "0.12"
+hmac = "0.12"
+subtle = "2.5"
+bincode = "1.3"
 rand = "0.8"
+rand_chacha = "0.3"
 hex = "0.4"
 base64 = "0.22"
 bs58 = "0.5"
 qrcode = "0.14"
+log = "0.4"
 
 # Memory security
 zeroize = { version = "1.7", features = ["zeroize_derive"] }

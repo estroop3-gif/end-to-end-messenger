@@ -11,11 +11,15 @@ mod signal_placeholder;
 mod stubs;
 mod settings_store;
 mod wipe_manager;
+mod transport;
 
 use crypto_stub::CryptoManager;
 use tor_integration::TorManager;
 use settings_store::{SettingsStore, DeadManSwitchSettings};
 use wipe_manager::{WipeManager, DmsPolicy};
+use transport::{TransportManager, TransportConfig, OnionFrame};
+use serde_json;
+use std::sync::Arc;
 
 // Application state with DMS support
 struct AppState {
@@ -23,6 +27,7 @@ struct AppState {
     tor_manager: Mutex<Option<TorManager>>,
     settings_store: Mutex<Option<SettingsStore>>,
     wipe_manager: Mutex<Option<WipeManager>>,
+    transport_manager: Mutex<Option<Arc<TransportManager>>>,
 }
 
 impl Default for AppState {
@@ -32,6 +37,7 @@ impl Default for AppState {
             tor_manager: Mutex::new(None),
             settings_store: Mutex::new(None),
             wipe_manager: Mutex::new(None),
+            transport_manager: Mutex::new(None),
         }
     }
 }
@@ -223,6 +229,184 @@ async fn get_machine_identifier(app_state: State<'_, AppState>) -> Result<String
         .map_err(|e| e.to_string())
 }
 
+// Onion Transport Tauri commands
+#[tauri::command]
+async fn initialize_transport(
+    config_json: String,
+    app_state: State<'_, AppState>
+) -> Result<(), String> {
+    let config: TransportConfig = serde_json::from_str(&config_json)
+        .map_err(|e| format!("Invalid config JSON: {}", e))?;
+
+    let transport_manager = Arc::new(TransportManager::new(config));
+
+    {
+        let mut transport_guard = app_state.transport_manager.lock().unwrap();
+        *transport_guard = Some(transport_manager);
+    }
+
+    Ok(())
+}
+
+#[tauri::command]
+async fn create_onion_session(
+    session_id: String,
+    remote_relay_pub_hex: String,
+    shuttle_pub_hex: String,
+    app_state: State<'_, AppState>
+) -> Result<(), String> {
+    // Parse hex keys
+    let remote_relay_pub = hex::decode(&remote_relay_pub_hex)
+        .map_err(|e| format!("Invalid remote relay public key: {}", e))?;
+    let shuttle_pub = hex::decode(&shuttle_pub_hex)
+        .map_err(|e| format!("Invalid shuttle public key: {}", e))?;
+
+    if remote_relay_pub.len() != 32 {
+        return Err("Remote relay public key must be 32 bytes".to_string());
+    }
+    if shuttle_pub.len() != 32 {
+        return Err("Shuttle public key must be 32 bytes".to_string());
+    }
+
+    let remote_relay_bytes: [u8; 32] = remote_relay_pub.try_into()
+        .map_err(|_| "Failed to convert remote relay key")?;
+    let shuttle_bytes: [u8; 32] = shuttle_pub.try_into()
+        .map_err(|_| "Failed to convert shuttle key")?;
+
+    let transport_manager = {
+        let transport_guard = app_state.transport_manager.lock().unwrap();
+        transport_guard.as_ref()
+            .ok_or("Transport manager not initialized")?
+            .clone()
+    };
+
+    transport_manager.create_session(session_id, remote_relay_bytes, shuttle_bytes).await
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn send_onion_message(
+    session_id: String,
+    signal_envelope_json: String,
+    app_state: State<'_, AppState>
+) -> Result<String, String> {
+    use transport::signal_bridge::SignalEnvelope;
+
+    // Parse Signal envelope
+    let signal_envelope: SignalEnvelope = serde_json::from_str(&signal_envelope_json)
+        .map_err(|e| format!("Invalid Signal envelope JSON: {}", e))?;
+
+    let transport_manager = {
+        let transport_guard = app_state.transport_manager.lock().unwrap();
+        transport_guard.as_ref()
+            .ok_or("Transport manager not initialized")?
+            .clone()
+    };
+
+    let frame = transport_manager.send_message(&session_id, &signal_envelope).await
+        .map_err(|e| e.to_string())?;
+
+    // Serialize frame for transmission
+    serde_json::to_string(&frame)
+        .map_err(|e| format!("Failed to serialize frame: {}", e))
+}
+
+#[tauri::command]
+async fn receive_onion_message(
+    session_id: String,
+    frame_json: String,
+    app_state: State<'_, AppState>
+) -> Result<String, String> {
+    // Parse onion frame
+    let frame: OnionFrame = serde_json::from_str(&frame_json)
+        .map_err(|e| format!("Invalid frame JSON: {}", e))?;
+
+    let transport_manager = {
+        let transport_guard = app_state.transport_manager.lock().unwrap();
+        transport_guard.as_ref()
+            .ok_or("Transport manager not initialized")?
+            .clone()
+    };
+
+    let signal_envelope = transport_manager.receive_message(&session_id, &frame).await
+        .map_err(|e| e.to_string())?;
+
+    // Serialize Signal envelope
+    serde_json::to_string(&signal_envelope)
+        .map_err(|e| format!("Failed to serialize Signal envelope: {}", e))
+}
+
+#[tauri::command]
+async fn generate_cover_traffic(
+    session_id: String,
+    app_state: State<'_, AppState>
+) -> Result<Option<String>, String> {
+    let transport_manager = {
+        let transport_guard = app_state.transport_manager.lock().unwrap();
+        transport_guard.as_ref()
+            .ok_or("Transport manager not initialized")?
+            .clone()
+    };
+
+    let frame_opt = transport_manager.generate_cover_traffic(&session_id).await
+        .map_err(|e| e.to_string())?;
+
+    match frame_opt {
+        Some(frame) => {
+            let frame_json = serde_json::to_string(&frame)
+                .map_err(|e| format!("Failed to serialize cover traffic: {}", e))?;
+            Ok(Some(frame_json))
+        }
+        None => Ok(None)
+    }
+}
+
+#[tauri::command]
+async fn remove_onion_session(
+    session_id: String,
+    app_state: State<'_, AppState>
+) -> Result<(), String> {
+    let transport_manager = {
+        let transport_guard = app_state.transport_manager.lock().unwrap();
+        transport_guard.as_ref()
+            .ok_or("Transport manager not initialized")?
+            .clone()
+    };
+
+    transport_manager.remove_session(&session_id).await;
+    Ok(())
+}
+
+#[tauri::command]
+fn get_transport_stats(app_state: State<'_, AppState>) -> Result<String, String> {
+    let transport_guard = app_state.transport_manager.lock().unwrap();
+    let transport_manager = transport_guard.as_ref()
+        .ok_or("Transport manager not initialized")?;
+
+    let stats = transport_manager.get_stats();
+    serde_json::to_string(&stats)
+        .map_err(|e| format!("Failed to serialize stats: {}", e))
+}
+
+#[tauri::command]
+fn update_transport_config(
+    config_json: String,
+    app_state: State<'_, AppState>
+) -> Result<(), String> {
+    let config: TransportConfig = serde_json::from_str(&config_json)
+        .map_err(|e| format!("Invalid config JSON: {}", e))?;
+
+    // Replace the transport manager with a new one using the updated config
+    let new_transport_manager = Arc::new(TransportManager::new(config));
+
+    {
+        let mut transport_guard = app_state.transport_manager.lock().unwrap();
+        *transport_guard = Some(new_transport_manager);
+    }
+
+    Ok(())
+}
+
 fn main() {
     println!("Starting Ephemeral Messenger v1.0.0 (Stub Implementation)");
     println!("✝️ Jesus is King - Secure Communication for His Glory");
@@ -246,6 +430,14 @@ fn main() {
             trigger_emergency_wipe,
             disable_dms,
             get_machine_identifier,
+            initialize_transport,
+            create_onion_session,
+            send_onion_message,
+            receive_onion_message,
+            generate_cover_traffic,
+            remove_onion_session,
+            get_transport_stats,
+            update_transport_config,
         ])
         .setup(|app| {
             println!("Application initialized successfully (stub implementation)");
