@@ -12,26 +12,15 @@ import {
 export default function Downloads() {
   const downloads = [
     {
-      platform: 'Windows GUI Installer',
+      platform: 'Windows REAL Application',
       version: '1.0.3',
-      size: '190 KB',
-      file: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-GUI-Installer.exe',
-      sha256: '03c62e9afda6aacc8074ce644d3470d26a942be106f4b3942b18b0786a121348',
-      signature: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-GUI-Installer.exe.sig',
-      download_url: '/downloads/JESUS-IS-KING-Secure-Messenger-v1.0.3-GUI-Installer.exe',
+      size: '4.4 MB',
+      file: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-REAL-Windows-App.exe',
+      sha256: 'fa37ad3142f2cd1c2205162a3b066fea39d5b45b409a37dcb6df001c30b4c8f2',
+      signature: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-REAL-Windows-App.exe.sig',
+      download_url: '/downloads/JESUS-IS-KING-Secure-Messenger-v1.0.3-REAL-Windows-App.exe',
       status: 'available',
-      instructions: 'Double-click to run Windows GUI installer. Shows installation progress with message boxes. Installs application components and creates configuration files. Perfect for users who prefer graphical installers.'
-    },
-    {
-      platform: 'Windows Console Application',
-      version: '1.0.3',
-      size: '716 KB',
-      file: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-Console.exe',
-      sha256: 'a63e31d190964b60474c3eec822073d288dd267b8d39119d90d8b202babdf713',
-      signature: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-Console.exe.sig',
-      download_url: '/downloads/JESUS-IS-KING-Secure-Messenger-v1.0.3-Console.exe',
-      status: 'available',
-      instructions: 'Run from Command Prompt or PowerShell. Professional native Windows application with full command-line interface supporting: verse, security, chat, config, keygen, install commands. Complete triple-encryption onion transport system.'
+      instructions: 'REAL Windows GUI Application! Double-click to run. Features: Welcome page, Security status, Interactive chat, Configuration management, Scripture verses. Native Windows GUI with tabs, buttons, and text input. Runs natively on Windows - no console, no fake installers!'
     },
     {
       platform: 'Windows (Console)',
@@ -160,23 +149,23 @@ mQINBGXXXXXXBEAC1234567890abcdef...
                         </code>
                       </div>
                     )}
-                    {download.platform === 'Windows Professional Application' && (
+                    {download.platform === 'Windows REAL Application' && (
                       <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded">
-                        <h4 className="text-sm font-semibold text-green-800 mb-2">🚀 Professional Windows Application Features:</h4>
+                        <h4 className="text-sm font-semibold text-green-800 mb-2">🚀 REAL Windows Application Features:</h4>
                         <ul className="text-xs text-green-700 space-y-1">
-                          <li>✅ Native Windows executable (no more batch files!)</li>
-                          <li>✅ Modern Tauri-based GUI with React frontend</li>
-                          <li>✅ Professional NSIS installer with proper uninstaller</li>
-                          <li>✅ Triple-encryption onion transport system</li>
-                          <li>✅ Certificate pinning and digital signatures</li>
-                          <li>✅ Hardware key authentication support</li>
-                          <li>✅ Intrusion detection and security monitoring</li>
-                          <li>✅ Shuttle service integration</li>
-                          <li>✅ Desktop shortcuts and Start Menu integration</li>
-                          <li>✅ Windows service for background encryption</li>
+                          <li>✅ ACTUAL Windows GUI Application (not fake!)</li>
+                          <li>✅ Native egui-based interface with real tabs and buttons</li>
+                          <li>✅ Welcome page, Security status, Interactive chat</li>
+                          <li>✅ Configuration management and Scripture verses</li>
+                          <li>✅ Real text input and message sending simulation</li>
+                          <li>✅ Professional Windows executable (PE32+ GUI)</li>
+                          <li>✅ File system operations and directory creation</li>
+                          <li>✅ JSON configuration saving and loading</li>
+                          <li>✅ Cross-compiled from Linux but runs natively on Windows</li>
+                          <li>✅ No console required - pure GUI application</li>
                         </ul>
                         <p className="text-xs text-green-600 mt-2 font-medium">
-                          🎯 Professional-grade application that looks and feels like any other Windows software
+                          🎯 REAL native Windows application that actually works when you run it!
                         </p>
                       </div>
                     )}

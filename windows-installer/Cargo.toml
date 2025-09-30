@@ -16,6 +16,8 @@ open = "5.0"
 clap = { version = "4.0", features = ["derive"] }
 anyhow = "1.0"
 uuid = { version = "1.0", features = ["v4"] }
+eframe = "0.27"
+egui = "0.27"
 
 [target.'cfg(windows)'.dependencies]
 winapi = { version = "0.3", features = ["winuser", "consoleapi", "processenv", "shellapi"] }
@@ -25,5 +27,5 @@ name = "jesus-is-king-messenger"
 path = "src/main.rs"
 
 [[bin]]
-name = "jesus-is-king-messenger-gui"
-path = "src/gui.rs"
+name = "jesus-is-king-messenger-app"
+path = "src/app.rs"
