@@ -14,13 +14,13 @@ export default function Downloads() {
     {
       platform: 'Windows Professional Application',
       version: '1.0.3',
-      size: '15.2 MB',
+      size: 'TBD',
       file: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-Professional-Setup.exe',
-      sha256: 'f8a2c7b9d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0',
+      sha256: 'Will be generated after Windows build',
       signature: 'JESUS-IS-KING-Secure-Messenger-v1.0.3-Professional-Setup.exe.sig',
-      download_url: '/JESUS-IS-KING-Secure-Messenger-v1.0.3-Professional-Setup.exe',
-      status: 'available',
-      instructions: 'Run the setup executable as Administrator. Professional Windows installer with native executable, modern Tauri-based GUI, NSIS installer, and complete triple-encryption onion transport system.'
+      download_url: 'https://github.com/estroop3-gif/end-to-end-messenger/tree/main/windows-installer',
+      status: 'source_available',
+      instructions: 'Source code available. Build instructions: cd windows-installer && ./build.sh. Requires Rust, Node.js, and Windows build tools. Professional native Windows application with modern Tauri-based GUI, NSIS installer, and complete triple-encryption onion transport system.'
     },
     {
       platform: 'Windows (Console)',
@@ -161,41 +161,71 @@ mQINBGXXXXXXBEAC1234567890abcdef...
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <a
-                      href={download.download_url}
-                      className="btn-primary inline-flex items-center justify-center"
-                      download
-                    >
-                      <Download className="h-4 w-4 mr-2" />
-                      Download
-                    </a>
-                    <a
-                      href={'/downloads/' + download.signature}
-                      className="btn-outline inline-flex items-center justify-center"
-                      download
-                    >
-                      <Key className="h-4 w-4 mr-2" />
-                      Signature
-                    </a>
+                    {download.status === 'source_available' ? (
+                      <a
+                        href={download.download_url}
+                        className="btn-primary inline-flex items-center justify-center"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FileCheck className="h-4 w-4 mr-2" />
+                        View Source Code
+                      </a>
+                    ) : (
+                      <>
+                        <a
+                          href={download.download_url}
+                          className="btn-primary inline-flex items-center justify-center"
+                          download
+                        >
+                          <Download className="h-4 w-4 mr-2" />
+                          Download
+                        </a>
+                        <a
+                          href={'/downloads/' + download.signature}
+                          className="btn-outline inline-flex items-center justify-center"
+                          download
+                        >
+                          <Key className="h-4 w-4 mr-2" />
+                          Signature
+                        </a>
+                      </>
+                    )}
                   </div>
                 </div>
 
                 {/* Checksum */}
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="text-sm font-medium text-gray-700">SHA256 Checksum:</label>
-                    <button
-                      onClick={() => copyToClipboard(download.sha256)}
-                      className="text-blue-600 hover:text-blue-700 p-1"
-                      title="Copy to clipboard"
-                    >
-                      <Copy className="h-4 w-4" />
-                    </button>
+                {download.status !== 'source_available' && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-sm font-medium text-gray-700">SHA256 Checksum:</label>
+                      <button
+                        onClick={() => copyToClipboard(download.sha256)}
+                        className="text-blue-600 hover:text-blue-700 p-1"
+                        title="Copy to clipboard"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <div className="bg-gray-100 p-3 rounded font-mono text-xs break-all">
+                      {download.sha256}
+                    </div>
                   </div>
-                  <div className="bg-gray-100 p-3 rounded font-mono text-xs break-all">
-                    {download.sha256}
+                )}
+                {download.status === 'source_available' && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="bg-blue-50 border border-blue-200 rounded p-4">
+                      <h4 className="text-sm font-semibold text-blue-800 mb-2">📦 Source Code Available</h4>
+                      <p className="text-xs text-blue-700 mb-2">
+                        The professional Windows application source code is available on GitHub.
+                        Build your own executable using the provided build scripts.
+                      </p>
+                      <p className="text-xs text-blue-600">
+                        SHA256 checksums will be generated after building the executable on Windows.
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             ))}
           </div>
