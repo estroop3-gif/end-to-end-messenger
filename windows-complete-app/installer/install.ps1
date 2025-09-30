@@ -129,20 +129,23 @@ echo.
 
 REM Launch web GUI
 if exist "gui\index.html" (
-    start "" "http://localhost:1420"
+    echo Starting GUI server...
 
-    REM Start simple HTTP server for GUI
-    cd gui
-    if exist "C:\Program Files\nodejs\node.exe" (
-        "C:\Program Files\nodejs\node.exe" -e "const http=require('http'),fs=require('fs'),path=require('path');http.createServer((req,res)=>{{let file=req.url==='/'?'index.html':req.url.slice(1);let ext=path.extname(file);let contentType='text/html';if(ext==='.js')contentType='text/javascript';if(ext==='.css')contentType='text/css';if(ext==='.json')contentType='application/json';if(ext==='.png')contentType='image/png';if(ext==='.jpg')contentType='image/jpg';fs.readFile(file,(err,data)=>{{if(err){{res.writeHead(404);res.end('Not found');}}else{{res.writeHead(200,{{'Content-Type':contentType}});res.end(data);}}}});}}}).listen(1420,()=>console.log('GUI server running on port 1420'));"
+    REM Check for Python (more likely to be available)
+    python --version >nul 2>&1
+    if %errorlevel% equ 0 (
+        echo Using Python HTTP server...
+        cd gui
+        start "" "http://localhost:1420"
+        python -m http.server 1420
     ) else (
-        echo Warning: Node.js not found. GUI may not function properly.
-        echo Please install Node.js from https://nodejs.org/
-        pause
+        REM Fallback: try to open file directly
+        echo Opening GUI directly in browser...
+        start "" "gui\index.html"
     )
 ) else (
-    echo Error: GUI files not found!
-    pause
+    echo Starting JESUS IS KING Messenger...
+    echo GUI not available in this version.
 )
 '@
 
