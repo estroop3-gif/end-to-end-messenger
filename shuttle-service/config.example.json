@@ -1,0 +1,70 @@
+{
+  "server": {
+    "address": "0.0.0.0",
+    "port": 8081,
+    "read_timeout": "30s",
+    "write_timeout": "30s",
+    "idle_timeout": "120s",
+    "cors_origins": ["*"]
+  },
+  "redis": {
+    "address": "localhost:6379",
+    "password": "",
+    "db": 0,
+    "pool_size": 10,
+    "max_retries": 3,
+    "min_retry_backoff": "8ms",
+    "max_retry_backoff": "512ms",
+    "dial_timeout": "5s",
+    "read_timeout": "3s",
+    "write_timeout": "3s",
+    "pool_timeout": "4s",
+    "idle_timeout": "5m",
+    "idle_check_frequency": "1m",
+    "max_conn_age": "30m"
+  },
+  "auth": {
+    "enabled": true,
+    "jwt_secret": "your-jwt-secret-here",
+    "api_keys": [
+      {
+        "key": "relay-key-sender-12345",
+        "permissions": ["offer", "read"],
+        "description": "Sender relay API key"
+      },
+      {
+        "key": "relay-key-receiver-67890",
+        "permissions": ["claim", "ack", "read"],
+        "description": "Receiver relay API key"
+      },
+      {
+        "key": "admin-key-monitoring",
+        "permissions": ["admin"],
+        "description": "Admin monitoring key"
+      }
+    ]
+  },
+  "limits": {
+    "rate_limit": {
+      "enabled": true,
+      "requests_per_second": 100,
+      "burst": 200,
+      "by_ip": true,
+      "by_api_key": false
+    },
+    "max_message_size": 1048576,
+    "max_queue_size": 10000,
+    "max_claim_timeout": 300,
+    "cleanup_interval": "5m"
+  },
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "output": "stdout"
+  },
+  "monitoring": {
+    "enabled": true,
+    "metrics_path": "/metrics",
+    "health_path": "/health"
+  }
+}

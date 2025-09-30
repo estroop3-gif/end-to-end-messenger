@@ -3,7 +3,7 @@
 
 param(
     [string]$OutputDir = "dist",
-    [string]$Version = "1.0.0",
+    [string]$Version = "1.0.3",
     [switch]$BuildGoServer = $true,
     [switch]$BuildCrypto = $true,
     [switch]$CreateZip = $true,
@@ -104,7 +104,18 @@ if ($BuildCrypto) {
 
 # Copy installer scripts
 Write-Host "Packaging installer scripts..." -ForegroundColor Yellow
-Copy-Item -Path "install.ps1" -Destination $PackageDir -Force
+$InstallerDir = Join-Path $PackageDir "installer"
+New-Item -ItemType Directory -Path $InstallerDir -Force | Out-Null
+
+# Copy all installer alternatives
+Copy-Item -Path "install.ps1" -Destination $InstallerDir -Force
+Copy-Item -Path "install-simple.ps1" -Destination $InstallerDir -Force
+Copy-Item -Path "install-batch.bat" -Destination $InstallerDir -Force
+Copy-Item -Path "download-latest.bat" -Destination $InstallerDir -Force
+
+# Copy main installer to package root for easy access
+Copy-Item -Path "install-batch.bat" -Destination $PackageDir -Force
+Rename-Item -Path (Join-Path $PackageDir "install-batch.bat") -NewName "INSTALL.bat" -Force
 
 # Create README
 $ReadmeContent = @"
@@ -148,11 +159,16 @@ This package contains a complete secure messaging solution with:
 - Node.js (recommended for GUI server)
 - Optional: Go runtime for server compilation
 
-### Quick Installation
-1. **Run as Administrator**: Right-click PowerShell and select "Run as Administrator"
-2. **Execute installer**: ``.\install.ps1``
-3. **Follow prompts**: The installer will guide you through the setup process
-4. **Setup hardware keys**: Run ``Setup-HardwareKeys.bat`` to configure authentication
+### Quick Installation (Recommended)
+1. **Double-click INSTALL.bat**: This uses the most compatible batch installer
+2. **Follow prompts**: The installer will guide you through the setup process
+3. **Alternative installers**: Use installer\ folder for other options
+
+### Alternative Installation Methods
+- **INSTALL.bat** (Recommended): Maximum compatibility, no PowerShell issues
+- **installer\install-simple.ps1**: Clean PowerShell script (requires PowerShell)
+- **installer\install.ps1**: Original installer (may have syntax issues)
+- **installer\download-latest.bat**: Download latest version from GitHub
 
 ### Custom Installation
 ``````powershell
@@ -273,39 +289,8 @@ Build Date: $(Get-Date -Format "yyyy-MM-dd")
 
 $ReadmeContent | Out-File -FilePath (Join-Path $PackageDir "README.md") -Encoding UTF8
 
-# Create installation batch file for easy execution
-$InstallBat = @"
-@echo off
-title JESUS IS KING - Secure Messaging Installer
-
-echo ===============================================
-echo   JESUS IS KING - Secure Messaging v$Version
-echo   Windows Installation
-echo ===============================================
-echo.
-
-echo This installer requires Administrator privileges.
-echo Please run this as Administrator for proper installation.
-echo.
-
-pause
-
-REM Check for admin rights
-net session >nul 2>&1
-if %errorLevel% == 0 (
-    echo Administrator privileges confirmed.
-    echo Starting PowerShell installer...
-    echo.
-    powershell.exe -ExecutionPolicy Bypass -File "install.ps1"
-) else (
-    echo Error: Administrator privileges required.
-    echo Please right-click this file and select "Run as Administrator"
-    echo.
-    pause
-)
-"@
-
-$InstallBat | Out-File -FilePath (Join-Path $PackageDir "INSTALL.bat") -Encoding ASCII
+# INSTALL.bat is already copied from install-batch.bat above
+# Just update the README reference
 
 # Create zip package if requested
 if ($CreateZip) {
