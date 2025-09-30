@@ -1,7 +1,7 @@
 'use client'
 
 import Layout from '../../components/Layout'
-import { Scale, Heart, Shield, Book, AlertTriangle, CheckCircle } from 'lucide-react'
+import { Scale, Heart, Shield, AlertTriangle, CheckCircle } from 'lucide-react'
 
 export default function Conduct() {
   return (

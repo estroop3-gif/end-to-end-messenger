@@ -1,8 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import Layout from '../../components/Layout'
-import { Book, Heart, Search, Star } from 'lucide-react'
+import { Book, Search, Star } from 'lucide-react'
 
 export default function Scripture() {
   return (

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Layout from '../../components/Layout'
-import { Heart, Send, Shield, Book } from 'lucide-react'
+import { Heart, Send, Shield } from 'lucide-react'
 
 export default function Prayer() {
   const [prayerText, setPrayerText] = useState('')

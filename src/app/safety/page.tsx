@@ -1,23 +1,15 @@
 'use client'
 
-import Link from 'next/link'
 import Layout from '../../components/Layout'
 import {
   Shield,
   AlertTriangle,
   CheckCircle,
-  ExternalLink,
   Download,
   Eye,
   Wifi,
   HardDrive,
-  Camera,
-  Mic,
   Usb,
-  Key,
-  Lock,
-  FileCheck,
-  AlertCircle,
   Info
 } from 'lucide-react'
 
