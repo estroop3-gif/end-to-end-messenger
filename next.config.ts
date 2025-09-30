@@ -5,6 +5,14 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: {
     unoptimized: true
+  },
+  // Exclude windows-installer directory from Next.js build
+  webpack: (config, { isServer }) => {
+    config.watchOptions = {
+      ...config.watchOptions,
+      ignored: ['**/windows-installer/**', '**/node_modules/**']
+    };
+    return config;
   }
 };
 
